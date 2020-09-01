@@ -9,7 +9,7 @@ function NavBar(props) {
         <div>
             <Navbar bg="light" variant="light">
     <Navbar.Brand href="#home"><img src={logo} alt=""></img></Navbar.Brand>
-    <Nav className="mr-auto">
+    <Nav className="ml-auto">
       <Nav.Link href="#home">Home</Nav.Link>
       <Nav.Link href="#features">Top Trips</Nav.Link>
       <Nav.Link href="#pricing"><Button variant="danger">My Tickets</Button></Nav.Link>
