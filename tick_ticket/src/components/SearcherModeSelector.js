@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Jumbotron from 'react-bootstrap/Jumbotron';
 import '../style.css';
 import Searcher from './Searcher';
 
@@ -39,21 +40,23 @@ function SearcherModeSelector(props) {
                 
         );
     }
-    const [mode, setMode] = useState(null)  // true = one-way, false = Roundtrip
+    const [mode, setMode] = useState(null)  // null = one-way, else = Roundtrip
     return (
         <div>
-            <Nav variant="pills" defaultActiveKey="oneWay">
-            <Nav.Item>
-                <Nav.Link href="#" eventKey="oneWay" onClick={() => {setMode(null)}}>One-way</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link eventKey="roundTrip" onClick={() => {setMode(roundTripComponent())}}>Roundtrip</Nav.Link>
-            </Nav.Item>
-            </Nav>
-            <Searcher tripMode={mode} hasDeleteButton={false}/>
-            <Button variant="outline-success" block>
-            + Add trip route +
-        </Button>
+            <Jumbotron className="bg-light">
+                <Nav variant="pills" defaultActiveKey="oneWay">
+                <Nav.Item>
+                    <Nav.Link href="#" eventKey="oneWay" onClick={() => {setMode(null)}}>One-way</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link eventKey="roundTrip" onClick={() => {setMode(roundTripComponent())}}>Roundtrip</Nav.Link>
+                </Nav.Item>
+                </Nav>
+                <Searcher tripMode={mode} hasDeleteButton={true}/>
+                <Button variant="outline-success" block>
+                + Add trip route +
+            </Button>
+            </Jumbotron>
         </div>
     );
 }

@@ -54,10 +54,10 @@ function Searcher(props) {
                 <Row style={{ marginTop: '2em', marginBottom: '0.3em'}}>
                     <Col>
                     </Col>
-                    <Col xl={3} lg={3} md={3} sm={3}>
+                    <Col xl={4} lg={4} md={4} sm={4}>
                         {deleteButton}
                     </Col>
-                    <Col xl={3} lg={3} md={3} sm={3}>
+                    <Col xl={4} lg={4} md={4} sm={4}>
                     <Button variant="danger" block>Find!</Button>
                     </Col>
                 </Row>
