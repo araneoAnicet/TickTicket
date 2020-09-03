@@ -12,21 +12,21 @@ function SearcherModeSelector(props) {
     function roundTripComponent(props) {
         return (
                 
-                <Row>
-                    <Col xs={4}>
+                <Row style={{ marginTop: '3em' }}>
+                    <Col xl={4} lg={4} md={4} sm={5}>
                     <Form.Control placeholder="To.." />
                   
                     </Col>
-                    <Col xs={0.3}>
+                    <Col xl={1} lg={1} md={1} sm={2}>
                     <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-arrow-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
 </svg>
                     </Col>
-                    <Col xs={4}>
+                    <Col xl={4} lg={4} md={4} sm={5}>
                     <Form.Control placeholder="From.." />
                   
                     </Col>
-                    <Col>
+                    <Col xl={3} lg={3} md={3} sm={true}>
                     <Button variant="outline-dark" block>
                     <svg style={{marginRight: '0.5em'}} width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-calendar-date" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
@@ -41,7 +41,7 @@ function SearcherModeSelector(props) {
     }
     const [mode, setMode] = useState(null)  // true = one-way, false = Roundtrip
     return (
-        <div className="edges-margin">
+        <div>
             <Nav variant="pills" defaultActiveKey="oneWay">
             <Nav.Item>
                 <Nav.Link href="#" eventKey="oneWay" onClick={() => {setMode(null)}}>One-way</Nav.Link>
