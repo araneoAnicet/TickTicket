@@ -17,7 +17,7 @@ function SearchersContainer(props) {
       <Row>
         <Col>
         </Col>
-       <Col xl="10" lg="10" md="10" sm="12" xs="12">
+       <Col xl="6" lg="6" md="6" sm="12" xs="12">
        <SearcherModeSelector hasDeleteButton={false}/>
        {searchers}
             <Button variant="outline-success" block onClick={addSearcher}>

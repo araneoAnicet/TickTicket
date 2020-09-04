@@ -3,43 +3,42 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import InputGroup from 'react-bootstrap/InputGroup';
 import '../style.css';
 import SearcherNav from './SearcherNav';
 
 
 function Searcher(props) {
-    function deleteButtonComponent(props) {
-        return (
-            <Button variant="primary" block>
-                Remove
-                <svg style={{ marginLeft: '0.5em' }} width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-x-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
-                </svg>
-            </Button>
-        );
-    }
-
-    var deleteButton;
-    if (props.hasDeleteButton) {
-        deleteButton = deleteButtonComponent()
-    }
     return (
         <div>
             <SearcherNav/>
                 <Form style={{ margitBottom: '5em' }}>
                 <Row>
-                    <Col xl={4} lg={4} md={4} sm={5}>
-                    <Form.Control placeholder="From.." />
-                    </Col>
-                    <Col xl={1} lg={1} md={1} sm={2}>
-                    <svg width="2em" height="2em" viewBox="0 0 16 16" className="bi bi-arrow-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <Col xl={4} lg={4} md={4} sm={4}>
+                        <InputGroup>
+                            <Form.Control placeholder="From.." />
+                            <InputGroup.Append>
+                            <InputGroup.Text>
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
 </svg>
+                            </InputGroup.Text>
+                            </InputGroup.Append>
+                        </InputGroup>
                     </Col>
-                    <Col xl={4} lg={4} md={4} sm={5}>
-                    <Form.Control placeholder="To.." />
+                    <Col xl={4} lg={4} md={4} sm={4}>
+                        <InputGroup>
+                            <InputGroup.Prepend>
+                                <InputGroup.Text>
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+</svg>
+                                </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <Form.Control placeholder="To.." />
+                        </InputGroup>
                     </Col>
-                    <Col xl={3} lg={3} md={3} sm={true}>
+                    <Col xl={4} lg={4} md={4} sm={4}>
                     <Button variant="outline-dark" block>
                     <svg style={{marginRight: '0.5em'}} width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-calendar-date" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
@@ -51,11 +50,10 @@ function Searcher(props) {
                 </Row>
                 {props.tripMode}
                 </Form>
-                <Row style={{ marginTop: '2em', marginBottom: '0.3em'}}>
+                <Row style={{ marginTop: '1em'}}>
                     <Col>
                     </Col>
-                    <Col xl={4} lg={4} md={4} sm={4}>
-                        {deleteButton}
+                    <Col>
                     </Col>
                     <Col xl={4} lg={4} md={4} sm={4}>
                     <Button variant="danger" block>Find!</Button>

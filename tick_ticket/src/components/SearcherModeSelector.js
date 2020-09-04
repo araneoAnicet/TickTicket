@@ -5,29 +5,53 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Jumbotron from 'react-bootstrap/Jumbotron';
+import InputGroup from 'react-bootstrap/InputGroup';
 import '../style.css';
 import Searcher from './Searcher';
 
 
 function SearcherModeSelector(props) {
+    function deleteButtonComponent() {
+        return (
+            <Button variant="light" size="sm" style={{float: 'right'}}>
+                <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+</svg>
+            </Button>
+        );
+    }
     function roundTripComponent(props) {
         return (
                 
-                <Row style={{ marginTop: '3em' }}>
-                    <Col xl={4} lg={4} md={4} sm={5}>
-                    <Form.Control placeholder="To.." />
-                  
-                    </Col>
-                    <Col xl={1} lg={1} md={1} sm={2}>
-                    <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-arrow-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <Row style={{ marginTop: '1em' }}>
+                    <Col xl={4} lg={4} md={4} sm={4}>
+                        <InputGroup>
+                        <Form.Control placeholder="To.." disabled/>
+                        <InputGroup.Append>
+                            <InputGroup.Text>
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
 </svg>
-                    </Col>
-                    <Col xl={4} lg={4} md={4} sm={5}>
-                    <Form.Control placeholder="From.." />
+                            </InputGroup.Text>
+                        </InputGroup.Append>
+                        </InputGroup>
+                    
                   
                     </Col>
-                    <Col xl={3} lg={3} md={3} sm={true}>
+                    <Col xl={4} lg={4} md={4} sm={4}>
+                        <InputGroup>
+                        <InputGroup.Prepend>
+                            <InputGroup.Text>
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+</svg>
+                            </InputGroup.Text>
+                        </InputGroup.Prepend>
+                        <Form.Control placeholder="From.." disabled/>
+                        </InputGroup>
+                  
+                    </Col>
+                    <Col xl={4} lg={4} md={4} sm={4}>
                     <Button variant="outline-dark" block>
                     <svg style={{marginRight: '0.5em'}} width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-calendar-date" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
@@ -41,8 +65,13 @@ function SearcherModeSelector(props) {
         );
     }
     const [mode, setMode] = useState(null)  // null = one-way, else = Roundtrip
+    let deleteButton = null;
+    if (props.hasDeleteButton) {
+        deleteButton = deleteButtonComponent();
+    }
     return (
             <Jumbotron className="bg-light">
+                {deleteButton}
                 <Nav variant="pills" defaultActiveKey="oneWay">
                 <Nav.Item>
                     <Nav.Link href="#" eventKey="oneWay" onClick={() => {setMode(null)}}>One-way</Nav.Link>
@@ -51,7 +80,7 @@ function SearcherModeSelector(props) {
                     <Nav.Link eventKey="roundTrip" onClick={() => {setMode(roundTripComponent())}}>Roundtrip</Nav.Link>
                 </Nav.Item>
                 </Nav>
-                <Searcher tripMode={mode} hasDeleteButton={props.hasDeleteButton}/>
+                <Searcher tripMode={mode}/>
             </Jumbotron>
     );
 }
