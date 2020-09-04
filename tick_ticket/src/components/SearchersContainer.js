@@ -12,7 +12,7 @@ function SearchersContainer(props) {
         setSearchers(searchers => [...searchers, <SearcherModeSelector hasDeleteButton={true}/>]);
     }
     return (
-        <div>
+        <div style={{ marginTop: '2%' }}>
             <Container fluid={true}>
       <Row>
         <Col>
@@ -20,7 +20,7 @@ function SearchersContainer(props) {
        <Col xl="6" lg="6" md="6" sm="12" xs="12">
        <SearcherModeSelector hasDeleteButton={false}/>
        {searchers}
-            <Button variant="outline-success" block onClick={addSearcher}>
+            <Button variant="success" block onClick={addSearcher}>
                 + Add trip route +
             </Button>
        </Col>
