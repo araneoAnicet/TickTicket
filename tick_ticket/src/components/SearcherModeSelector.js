@@ -42,7 +42,6 @@ function SearcherModeSelector(props) {
     }
     const [mode, setMode] = useState(null)  // null = one-way, else = Roundtrip
     return (
-        <div>
             <Jumbotron className="bg-light">
                 <Nav variant="pills" defaultActiveKey="oneWay">
                 <Nav.Item>
@@ -52,12 +51,8 @@ function SearcherModeSelector(props) {
                     <Nav.Link eventKey="roundTrip" onClick={() => {setMode(roundTripComponent())}}>Roundtrip</Nav.Link>
                 </Nav.Item>
                 </Nav>
-                <Searcher tripMode={mode} hasDeleteButton={true}/>
-                <Button variant="outline-success" block>
-                + Add trip route +
-            </Button>
+                <Searcher tripMode={mode} hasDeleteButton={props.hasDeleteButton}/>
             </Jumbotron>
-        </div>
     );
 }
 
