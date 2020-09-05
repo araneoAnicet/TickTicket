@@ -13,7 +13,7 @@ function NavBar(props) {
     <Nav className="ml-auto">
       <Nav.Link className="ml-auto" href="#home">Home</Nav.Link>
       <Nav.Link className="ml-auto" href="#TopTrips">Top trips</Nav.Link>
-      <Nav.Link className="ml-auto" href="#MyTickets"><Button variant="danger">My Tickets</Button></Nav.Link>
+      <Nav.Link className="ml-auto text-danger" href="#MyTickets">My Tickets</Nav.Link>
     </Nav>
   </Navbar.Collapse>
 </Navbar>

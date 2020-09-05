@@ -69,8 +69,9 @@ function SearcherModeSelector(props) {
     if (props.hasDeleteButton) {
         deleteButton = deleteButtonComponent();
     }
+
     return (
-            <Jumbotron className="bg-light">
+            <Jumbotron style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)' }}>
                 {deleteButton}
                 <Nav variant="pills" defaultActiveKey="oneWay">
                 <Nav.Item>
