@@ -18,7 +18,7 @@ function SearcherNav(props) {
             fill="currentColor"
             xmlns="http://www.w3.org/2000/svg">
       <path
-      fill-rule="evenodd"
+      fillRule="evenodd"
       d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
     </svg>
         );
@@ -65,14 +65,14 @@ function SearcherNav(props) {
         <div>
             <Nav justify variant="tabs" defaultActiveKey="any" onSelect={handleSelect}>
             <Nav.Item>
-                <Nav.Link eventKey="train"><img src={Train}></img>Train {transport.train} </Nav.Link>
+                <Nav.Link eventKey="train"><img src={Train} alt="train"></img>Train {transport.train} </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-                <Nav.Link eventKey="plane"><img src={Plane}></img>Plane {transport.plane} </Nav.Link>
+                <Nav.Link eventKey="plane"><img src={Plane} alt="plane"></img>Plane {transport.plane} </Nav.Link>
             </Nav.Item>
             <Nav.Item>
                 <Nav.Link eventKey="bus">
-                <img src={Bus}></img>Bus {transport.bus}
+                <img src={Bus} alt="bus"></img>Bus {transport.bus}
                 </Nav.Link>
             </Nav.Item>
             <Nav.Item>

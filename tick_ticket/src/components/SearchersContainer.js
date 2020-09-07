@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {v4 as uuidv4} from 'uuid';
 import SearcherModeSelector from './SearcherModeSelector';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
@@ -8,8 +9,17 @@ import Container from 'react-bootstrap/Container';
 
 function SearchersContainer(props) {
     const [searchers, setSearchers] = useState([]);
+
     function addSearcher() {
-        setSearchers(searchers => [...searchers, <SearcherModeSelector hasDeleteButton={true}/>]);
+        setSearchers(
+            searchers => [
+                ...searchers,
+                <SearcherModeSelector
+                hasDeleteButton={true}
+                key={uuidv4()}
+                />
+            ]
+            );
     }
 
     function findAllTicketsComponent() {
@@ -18,12 +28,7 @@ function SearchersContainer(props) {
                 Find all tickets!
                 </Button>
         );
-    }
-
-    var findAllButton = null;
-    if (searchers.length > 0) {
-        findAllButton = findAllTicketsComponent();
-    }
+    } 
 
     return (
         <div style={{ marginTop: '2%' }}>
@@ -34,7 +39,7 @@ function SearchersContainer(props) {
        <Col xl="6" lg="6" md="6" sm="12" xs="12">
        <SearcherModeSelector hasDeleteButton={false}/>
        {searchers}
-       {findAllButton}
+       {findAllTicketsComponent()}
             <Button variant="success" block onClick={addSearcher}>
                 + Add trip route +
             </Button>
