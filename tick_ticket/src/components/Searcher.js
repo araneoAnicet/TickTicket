@@ -56,6 +56,9 @@ function Searcher(props) {
 
     const [from ,setFrom] = useState();
     const [to, setTo] = useState();
+    const [oneWayDate, setOneWayDate] = useState();
+    const [roundTripDate, setRoundTripDate] = useState();
+    const [hasRoundTrip, setHasRoundTrip] = useState(false);
 
     function onFromChange(event) {
         setFrom(event.target.value);
