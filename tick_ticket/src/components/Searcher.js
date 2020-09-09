@@ -18,7 +18,7 @@ class Searcher extends React.Component {
         super(props);
         this.state = {
             id: props.id,
-            mode: props.mode,
+            mode: props.mode,  // false - oneWay; true - roundTrip
             from: props.from,
             to: props.to,
             oneWayDate: props.oneWayDate,

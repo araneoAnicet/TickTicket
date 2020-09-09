@@ -59,6 +59,11 @@ function SearchersContainer(props) {
         );
     }
 
+    let findAllTicketsButton = null;
+    if (searchers.length > 1) {
+        findAllTicketsButton = findAllTicketsComponent();
+    }
+
     return (
         <div style={{ marginTop: '2%' }}>
             <Container fluid={true}>
@@ -83,7 +88,7 @@ function SearchersContainer(props) {
                     />
            })
        }
-       {findAllTicketsComponent()}
+       {findAllTicketsButton}
             <Button variant="success" block onClick={addSearcher}>
                 + Add trip route +
             </Button>
