@@ -8,27 +8,43 @@ import Container from 'react-bootstrap/Container';
 
 
 function SearchersContainer(props) {
+    
     const [searchers, setSearchers] = useState([]);
-
+    
     function addSearcher() {
-        setSearchers(
-            searchers => [
-                ...searchers,
-                <SearcherModeSelector
-                hasDeleteButton={true}
-                key={uuidv4()}
-                />
-            ]
-            );
+        setSearchers([
+            ...searchers,
+            {
+                id: uuidv4(),
+                from: '',
+                to: '',
+                oneWayDate: '',
+                roundTripDate: '',
+                transportName: 'any',
+                mode: false,  // true - roundtrip; false - one way
+                reference: React.createRef()
+            }
+        ]);
+    }
+
+    function removeSearcher(searcherId) {
+        const newSearchers = searchers.filter((currentSearcher) => currentSearcher.id !== searcherId);
+        setSearchers(newSearchers);
+    }
+
+    function showSearchersData() {
+        for (var searcher of searchers) {
+            console.log(searcher.reference.current.getData());
+        }
     }
 
     function findAllTicketsComponent() {
         return (
-            <Button variant="danger" block>
+            <Button variant="danger" block onClick={showSearchersData}>
                 Find all tickets!
                 </Button>
         );
-    } 
+    }
 
     return (
         <div style={{ marginTop: '2%' }}>
@@ -38,7 +54,23 @@ function SearchersContainer(props) {
         </Col>
        <Col xl="6" lg="6" md="6" sm="12" xs="12">
        <SearcherModeSelector hasDeleteButton={false}/>
-       {searchers}
+       {
+           searchers.map((searcher) => {
+                return <SearcherModeSelector
+                    hasDeleteButton={true}
+                    key={searcher.id}
+                    id={searcher.id}
+                    mode={searcher.mode}
+                    from={searcher.from}
+                    to={searcher.to}
+                    oneWayDate={searcher.oneWayDate}
+                    roundTripDate={searcher.roundTripDate}
+                    transportName={searcher.transportName}
+                    ref={searcher.reference}
+                    removeSearcher={removeSearcher}
+                    />
+           })
+       }
        {findAllTicketsComponent()}
             <Button variant="success" block onClick={addSearcher}>
                 + Add trip route +
