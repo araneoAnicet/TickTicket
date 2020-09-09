@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {v4 as uuidv4} from 'uuid';
-import SearcherModeSelector from './SearcherModeSelector';
+import Searcher from './Searcher';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -9,7 +9,19 @@ import Container from 'react-bootstrap/Container';
 
 function SearchersContainer(props) {
     
-    const [searchers, setSearchers] = useState([]);
+    const [searchers, setSearchers] = useState([
+        {
+            id: uuidv4(),
+            from: '',
+            to: '',
+            oneWayDate: '',
+            roundTripDate: '',
+            transportName: 'any',
+            mode: false,  // true - roundtrip; false - one way
+            reference: React.createRef(),
+            hasDeleteButton: false
+        }
+    ]);
     
     function addSearcher() {
         setSearchers([
@@ -22,7 +34,8 @@ function SearchersContainer(props) {
                 roundTripDate: '',
                 transportName: 'any',
                 mode: false,  // true - roundtrip; false - one way
-                reference: React.createRef()
+                reference: React.createRef(),
+                hasDeleteButton: true
             }
         ]);
     }
@@ -53,11 +66,10 @@ function SearchersContainer(props) {
         <Col>
         </Col>
        <Col xl="6" lg="6" md="6" sm="12" xs="12">
-       <SearcherModeSelector hasDeleteButton={false}/>
        {
            searchers.map((searcher) => {
-                return <SearcherModeSelector
-                    hasDeleteButton={true}
+                return <Searcher
+                    hasDeleteButton={searcher.hasDeleteButton}
                     key={searcher.id}
                     id={searcher.id}
                     mode={searcher.mode}

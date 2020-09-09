@@ -12,7 +12,7 @@ import Plane from '../Plane30.png';
 import Train from '../Train30.png';
 
 
-class SearcherModeSelector extends React.Component {
+class Searcher extends React.Component {
 
     constructor(props) {
         super(props);
@@ -297,4 +297,4 @@ class SearcherModeSelector extends React.Component {
     }
 }
 
-export default SearcherModeSelector;
+export default Searcher;
