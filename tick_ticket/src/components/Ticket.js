@@ -8,6 +8,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Train from '../Train100.png';
 import Bus from '../Bus100.png';
 import Plane from '../Plane100.png';
+import '../style.css'
 
 
 class Ticket extends React.Component {
@@ -58,7 +59,7 @@ class Ticket extends React.Component {
 
     render() {
         return (
-            <Jumbotron style={this.state.ticketBackgoundColor}>
+            <Jumbotron style={this.state.ticketBackgoundColor} className="has-shadow">
                 <Container>
                     <Row>
                         <Col>
@@ -101,14 +102,14 @@ class Ticket extends React.Component {
                     <Row style={{ marginTop: '1em' }}>
                         <Col/>
                         <Col>
-                            <h2 className="text-danger">
+                            <h3 className="text-danger">
                                 {this.props.departureCityName}
-                            </h2>
+                            </h3>
                         </Col>
                         <Col>
-                        <h2 className="text-danger">
+                        <h3 className="text-danger">
                             {this.props.arriveCityName}
-                        </h2>
+                        </h3>
                         </Col>
                         <Col>
                             <ButtonGroup>

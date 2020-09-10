@@ -211,7 +211,7 @@ class Searcher extends React.Component {
         }
 
         return (
-            <Jumbotron style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)' }}>
+            <Jumbotron style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)' }} className="has-shadow">
                 {deleteButton}
                 <Nav variant="pills" defaultActiveKey="oneWay">
                 <Nav.Item>
