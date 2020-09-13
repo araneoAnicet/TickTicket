@@ -2,6 +2,7 @@ import React from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Badge from 'react-bootstrap/Badge';
+import Button from 'react-bootstrap/Button';
 import logo from '../logo192.png';
 import TicketsContainer from './TicketsContainer';
 import SearchersContainer from './SearchersContainer';
@@ -14,8 +15,8 @@ class NavBar extends React.Component {
       <div>
       <Navbar collapseOnSelect fixed={'top'} sticky={'top'} expand="lg" bg="light" variant="light">
     <Navbar.Brand href="#home"><img src={logo} alt=""></img></Navbar.Brand>
-    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-    <Navbar.Collapse id="responsive-navbar-nav">
+    <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
+    <Navbar.Collapse id="responsive-navbar-nav">         
       <Nav className="ml-auto">
         <Nav.Link className="ml-auto" href="#home">Home</Nav.Link>
         <Nav.Link className="ml-auto" href="#TopTrips">Top trips</Nav.Link>
