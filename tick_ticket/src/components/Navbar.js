@@ -3,6 +3,8 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Badge from 'react-bootstrap/Badge';
 import logo from '../logo192.png';
+import TicketsContainer from './TicketsContainer';
+import SearchersContainer from './SearchersContainer';
 
 class NavBar extends React.Component {
   
@@ -29,7 +31,8 @@ class NavBar extends React.Component {
       </Nav>
     </Navbar.Collapse>
   </Navbar>
-  {this.props.children}
+  <SearchersContainer/>
+  <TicketsContainer/>
       </div>
     )
   }

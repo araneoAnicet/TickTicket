@@ -25,7 +25,12 @@ function TicketsContainer(props) {
     const [tickets, setTickets] = useState(initialTicketsList);
 
     return (
-        <Container fluid style={{ marginTop: '2em' }}>
+        <div>
+            <hr/>
+      <h2 className="text-center">
+        Recommended tickets
+      </h2>
+      <Container fluid style={{ marginTop: '2em' }}>
             <Row>
                 <Col/>
                 <Col xl="8" lg="8" md="10" sm="12" xs="12">
@@ -54,6 +59,7 @@ function TicketsContainer(props) {
             <Col/>
             </Row>
         </Container>
+        </div>
     );
 
 }

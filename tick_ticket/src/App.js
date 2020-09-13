@@ -10,12 +10,6 @@ function App() {
     <div>
       <AppBackground>
       <NavBar/>
-      <SearchersContainer/>
-      <hr/>
-      <h2 className="text-center">
-        Recommended tickets
-      </h2>
-      <TicketsContainer/>
       </AppBackground>
     </div>
   );
