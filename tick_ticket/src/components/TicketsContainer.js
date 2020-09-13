@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/esm/Button';
+import CarrierIcon from '../carrierIcon.png';
 
 
 function TicketsContainer(props) {
@@ -19,6 +20,8 @@ function TicketsContainer(props) {
             currencyName: 'USD',
             departureCityName: 'Madrid',
             arriveCityName: 'Minsk',
+            carrierIcon: CarrierIcon,
+            carrierName: 'International carrier',
             reference: React.createRef()
         }
     ];
@@ -56,6 +59,8 @@ function TicketsContainer(props) {
                                 arriveCityName={item.arriveCityName}
                                 price={item.price}
                                 currencyName={item.currencyName}
+                                carrierIcon={item.carrierIcon}
+                                carrierName={item.carrierName}
                             />
                         );
                     })

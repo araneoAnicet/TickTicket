@@ -5,9 +5,9 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Train from '../Train100.png';
-import Bus from '../Bus100.png';
-import Plane from '../Plane100.png';
+import Train from '../Train30.png';
+import Bus from '../Bus30.png';
+import Plane from '../Plane30.png';
 import '../style.css'
 
 
@@ -87,6 +87,7 @@ class Ticket extends React.Component {
                     <Row>
                         <Col>
                             <h6>
+                                <img src={this.state.icon}></img>
                                 <span>Ticket </span>
                                 <span className="text-danger">#{this.props.id}</span>
                                 </h6>
@@ -94,7 +95,10 @@ class Ticket extends React.Component {
                     </Row>
                     <Row>
                         <Col md={2}>
-                            <img src={this.state.icon} alt=""></img>
+                            <img src={this.props.carrierIcon} alt=""></img>
+                            <p>
+                                {this.props.carrierName}
+                            </p>
                         </Col>
                         <Col xs={4} sm={4} md={3}>
                                 Departure:
