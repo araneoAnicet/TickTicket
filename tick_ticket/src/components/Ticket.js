@@ -36,14 +36,16 @@ class Ticket extends React.Component {
                 bus: Bus,
                 plane: Plane
             },
-            icon: Train,
-            selectButton: this.selectButtonComponent()
+            icon: Plane
         }
+
+        this.select = this.select.bind(this);
+        this.deselect = this.deselect.bind(this);
     }
 
     selectButtonComponent() {
         return (
-            <Button size="lg" variant="success">
+            <Button variant="success" onClick={this.select}>
                 Select
             </Button>
         ); 
@@ -51,13 +53,34 @@ class Ticket extends React.Component {
 
     deselectButtonComponent() {
         return (
-            <Button size="lg" variant="primary">
-                deselect
+            <Button variant="primary" onClick={this.deselect}>
+                Deselect
             </Button>
         );
     }
 
+    select() {
+        this.setState({
+            isSelected: true,
+            ticketBackgoundColor: this.state.backgroundStyle.green
+        });
+    }
+
+    deselect() {
+        this.setState({
+            isSelected: false,
+            ticketBackgoundColor: this.state.backgroundStyle.white
+        });
+    }
+
     render() {
+        var selectButton = null;
+        if (this.state.isSelected) {
+            selectButton = this.deselectButtonComponent();
+        } else {
+            selectButton = this.selectButtonComponent();
+        }
+
         return (
             <Jumbotron style={this.state.ticketBackgoundColor} className="has-shadow">
                 <Container>
@@ -70,10 +93,10 @@ class Ticket extends React.Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col>
+                        <Col md={2}>
                             <img src={this.state.icon} alt=""></img>
                         </Col>
-                        <Col>
+                        <Col sm={4} md={3}>
                             <p>
                                 Departure:
                             </p>
@@ -81,7 +104,7 @@ class Ticket extends React.Component {
                                 {this.props.departureDate}
                             </h3>
                         </Col>
-                        <Col>
+                        <Col sm={4} md={3}>
                             <p>
                                 Arrive:
                             </p>
@@ -89,7 +112,7 @@ class Ticket extends React.Component {
                                 {this.props.arriveDate}
                             </h3>
                         </Col>
-                        <Col>
+                        <Col sm={4} md={4}>
                             <p>
                                 Price:
                             </p>
@@ -100,23 +123,26 @@ class Ticket extends React.Component {
                         </Col>
                     </Row>
                     <Row style={{ marginTop: '1em' }}>
-                        <Col/>
-                        <Col>
+                        <Col md={2}/>
+                        <Col sm={4} md={3}>
                             <h3 className="text-danger">
                                 {this.props.departureCityName}
                             </h3>
                         </Col>
-                        <Col>
+                        <Col sm={4} md={3}>
                         <h3 className="text-danger">
                             {this.props.arriveCityName}
                         </h3>
                         </Col>
-                        <Col>
+                        <Col sm={4} md={4}>
                             <ButtonGroup>
-                            <Button size="lg" variant="danger">
+                            <Button variant="danger">
                                 Buy
+                                <svg style={{ marginLeft: '0.5em', paddingBottom: '0.2em' }} width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-cart-plus-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fillRule="evenodd" d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM4 14a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm7 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9V5.5z"/>
+                            </svg>
                             </Button>
-                            {this.state.selectButton}
+                            {selectButton}
                             </ButtonGroup>
                         </Col>
                     </Row>

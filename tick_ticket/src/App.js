@@ -11,6 +11,7 @@ function App() {
       <AppBackground>
       <NavBar/>
       <SearchersContainer/>
+      <hr/>
       <TicketsContainer/>
       </AppBackground>
     </div>
