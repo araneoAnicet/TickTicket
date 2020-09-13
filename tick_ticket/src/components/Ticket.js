@@ -41,6 +41,11 @@ class Ticket extends React.Component {
 
         this.select = this.select.bind(this);
         this.deselect = this.deselect.bind(this);
+        this.isSelected = this.isSelected.bind(this);
+    }
+
+    isSelected() {
+        return this.state.isSelected;
     }
 
     selectButtonComponent() {
