@@ -97,17 +97,21 @@ class Ticket extends React.Component {
                             <img src={this.state.icon} alt=""></img>
                         </Col>
                         <Col sm={4} md={3}>
-                            <p>
                                 Departure:
+                            <p>
+                            {this.props.departureDate}
                             </p>
+                            
                             <h3>
                                 {this.props.departureTime}
                             </h3>
                         </Col>
                         <Col sm={4} md={3}>
+                        Arrive:
                             <p>
-                                Arrive:
+                            {this.props.arriveDate}
                             </p>
+                           
                             <h3>
                                 {this.props.arriveTime}
                             </h3>

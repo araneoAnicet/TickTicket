@@ -14,7 +14,9 @@ function TicketsContainer(props) {
         {
             id: maxTicketIndex,
             departureTime: '1:12',
-            arriveTime: '5:30',
+            arriveTime: '7:30',
+            departureDate: '24 aug 2019',
+            arriveDate: '24 aug 2019',
             price: 58,
             currencyName: 'USD',
             departureCityName: 'Madrid',
@@ -54,6 +56,8 @@ function TicketsContainer(props) {
                                 id={item.id}
                                 departureTime={item.departureTime}
                                 arriveTime={item.arriveTime}
+                                departureDate={item.departureDate}
+                                arriveDate={item.arriveDate}
                                 departureCityName={item.departureCityName}
                                 arriveCityName={item.arriveCityName}
                                 price={item.price}
