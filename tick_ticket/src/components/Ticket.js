@@ -96,7 +96,7 @@ class Ticket extends React.Component {
                         <Col md={2}>
                             <img src={this.state.icon} alt=""></img>
                         </Col>
-                        <Col sm={4} md={3}>
+                        <Col xs={4} sm={4} md={3}>
                                 Departure:
                             <p>
                             {this.props.departureDate}
@@ -106,7 +106,7 @@ class Ticket extends React.Component {
                                 {this.props.departureTime}
                             </h3>
                         </Col>
-                        <Col sm={4} md={3}>
+                        <Col xs={4} sm={4} md={3}>
                         Arrive:
                             <p>
                             {this.props.arriveDate}
@@ -116,7 +116,7 @@ class Ticket extends React.Component {
                                 {this.props.arriveTime}
                             </h3>
                         </Col>
-                        <Col sm={4} md={4}>
+                        <Col xs={4} sm={4} md={4}>
                             <p>
                                 Price:
                             </p>
@@ -128,17 +128,17 @@ class Ticket extends React.Component {
                     </Row>
                     <Row style={{ marginTop: '1em' }}>
                         <Col md={2}/>
-                        <Col sm={4} md={3}>
+                        <Col xs={4} sm={4} md={3}>
                             <h3 className="text-danger">
                                 {this.props.departureCityName}
                             </h3>
                         </Col>
-                        <Col sm={4} md={3}>
+                        <Col xs={4} sm={4} md={3}>
                         <h3 className="text-danger">
                             {this.props.arriveCityName}
                         </h3>
                         </Col>
-                        <Col sm={4} md={4}>
+                        <Col xs={4} sm={4} md={4}>
                             <ButtonGroup>
                             <Button variant="danger">
                                 Buy
