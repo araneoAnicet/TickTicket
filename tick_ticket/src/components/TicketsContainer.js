@@ -51,6 +51,7 @@ function TicketsContainer(props) {
                             Ticket
                                 key={uuidv4()}
                                 id={item.id}
+                                ref={item.reference}
                                 departureTime={item.departureTime}
                                 arriveTime={item.arriveTime}
                                 departureDate={item.departureDate}
