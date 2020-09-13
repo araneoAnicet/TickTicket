@@ -32,15 +32,6 @@ function TicketsContainer(props) {
         setMaxTicketIndex(maxTicketIndex + 1);
     }
 
-    function addTicket(newTicket) {
-        increaceTicketIndex();
-        setTickets([
-            ...tickets,
-            newTicket
-        ]);
-    }
-
-
     return (
         <Container fluid style={{ marginTop: '2em' }}>
             <Row>
