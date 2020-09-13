@@ -7,12 +7,9 @@ import Container from 'react-bootstrap/Container';
 
 
 function TicketsContainer(props) {
-    const [maxTicketIndex, setMaxTicketIndex] = useState(0);
-
-
     const initialTicketsList = [
         {
-            id: maxTicketIndex,
+            id: 0,
             departureTime: '1:12',
             arriveTime: '7:30',
             departureDate: '24 aug 2019',
@@ -27,16 +24,11 @@ function TicketsContainer(props) {
 
     const [tickets, setTickets] = useState(initialTicketsList);
 
-
-    function increaceTicketIndex() {
-        setMaxTicketIndex(maxTicketIndex + 1);
-    }
-
     return (
         <Container fluid style={{ marginTop: '2em' }}>
             <Row>
                 <Col/>
-                <Col xl="6" lg="6" md="6" sm="12" xs="12">
+                <Col xl="8" lg="8" md="10" sm="12" xs="12">
                 
                 {
                     tickets.map((item) => {
