@@ -13,8 +13,8 @@ function TicketsContainer(props) {
     const initialTicketsList = [
         {
             id: maxTicketIndex,
-            departureDate: '1:12',
-            arriveDate: '5:30',
+            departureTime: '1:12',
+            arriveTime: '5:30',
             price: 58,
             currencyName: 'USD',
             departureCityName: 'Madrid',
@@ -52,8 +52,8 @@ function TicketsContainer(props) {
                             Ticket
                                 key={uuidv4()}
                                 id={item.id}
-                                departureDate={item.departureDate}
-                                arriveDate={item.arriveDate}
+                                departureTime={item.departureTime}
+                                arriveTime={item.arriveTime}
                                 departureCityName={item.departureCityName}
                                 arriveCityName={item.arriveCityName}
                                 price={item.price}

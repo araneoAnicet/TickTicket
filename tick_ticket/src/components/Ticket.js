@@ -101,7 +101,7 @@ class Ticket extends React.Component {
                                 Departure:
                             </p>
                             <h3>
-                                {this.props.departureDate}
+                                {this.props.departureTime}
                             </h3>
                         </Col>
                         <Col sm={4} md={3}>
@@ -109,7 +109,7 @@ class Ticket extends React.Component {
                                 Arrive:
                             </p>
                             <h3>
-                                {this.props.arriveDate}
+                                {this.props.arriveTime}
                             </h3>
                         </Col>
                         <Col sm={4} md={4}>
