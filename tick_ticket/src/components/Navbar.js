@@ -5,6 +5,7 @@ import Badge from 'react-bootstrap/Badge';
 import logo from '../logo192.png';
 import TicketsContainer from './TicketsContainer';
 import SearchersContainer from './SearchersContainer';
+import MyTickets from './MyTickets';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import CarrierIcon from '../carrierIcon.png';
 
@@ -90,7 +91,7 @@ class NavBar extends React.Component {
               />
           </Route>
           <Route path="/myTickets">
-            <h1>My tickets!</h1>
+            <MyTickets tickets={this.tickets}/>
           </Route>
         </Switch>
       </Router>
