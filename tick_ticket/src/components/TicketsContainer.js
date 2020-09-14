@@ -23,6 +23,7 @@ function TicketsContainer(props) {
             carrierIcon: CarrierIcon,
             carrierName: 'International carrier',
             isInCart: false,
+            numberOfAvailableTickets: 93,
             reference: React.createRef()
         }
     ];
@@ -108,6 +109,7 @@ function TicketsContainer(props) {
                                 addTicketToCart={addTicketToCart}
                                 removeTicketFromCart={removeTicketFromCart}
                                 isInCart={item.isInCart}
+                                numberOfAvailableTickets={item.numberOfAvailableTickets}
                             />
                         );
                     })

@@ -123,6 +123,9 @@ class Ticket extends React.Component {
                                 <span>Ticket </span>
                                 <span className="text-danger">#{this.props.id}</span>
                                 </h6>
+                                <p>
+                                    Tickets available: {this.props.numberOfAvailableTickets}
+                                </p>
                         </Col>
                     </Row>
                     <Row>
