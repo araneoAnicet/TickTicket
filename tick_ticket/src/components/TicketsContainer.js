@@ -5,30 +5,10 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/esm/Button';
-import CarrierIcon from '../carrierIcon.png';
 
 
 function TicketsContainer(props) {
-    const initialTicketsList = [
-        {
-            id: 0,
-            departureTime: '1:12',
-            arriveTime: '7:30',
-            departureDate: '24 aug 2019',
-            arriveDate: '24 aug 2019',
-            price: 58,
-            currencyName: 'USD',
-            departureCityName: 'Madrid',
-            arriveCityName: 'Minsk',
-            carrierIcon: CarrierIcon,
-            carrierName: 'International carrier',
-            isInCart: false,
-            numberOfAvailableTickets: 93,
-            reference: React.createRef()
-        }
-    ];
-
-    const [tickets, setTickets] = useState(initialTicketsList);
+    const [tickets, setTickets] = useState(props.initialTicketsList);
 
 
     function addSelectedTicketsToCart() {
@@ -74,10 +54,6 @@ function TicketsContainer(props) {
 
     return (
         <div>
-            <hr/>
-      <h2 className="text-center">
-        Recommended tickets
-      </h2>
       <Container fluid style={{ marginTop: '2em' }}>
             <Row>
                 <Col/>

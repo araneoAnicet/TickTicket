@@ -5,11 +5,9 @@ import './App.css';
 
 function App() {
   return (
-    <div>
       <AppBackground>
       <NavBar/>
       </AppBackground>
-    </div>
   );
 }
 
