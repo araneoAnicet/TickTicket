@@ -22,6 +22,7 @@ function TicketsContainer(props) {
             arriveCityName: 'Minsk',
             carrierIcon: CarrierIcon,
             carrierName: 'International carrier',
+            isInCart: false,
             reference: React.createRef()
         }
     ];
@@ -29,16 +30,44 @@ function TicketsContainer(props) {
     const [tickets, setTickets] = useState(initialTicketsList);
 
 
-    function addTicketIdsToCart() {
+    function addSelectedTicketsToCart() {
         for (var ticket of tickets) {
             if (ticket.reference.current.isSelected()) {
-                props.addTicketId(ticket.id);
+                switchTicketInCartStatus(ticket, true);
+                props.addTicket(ticket);
             }
         }
     }
 
-    function addTicketIdToCart(id) {
-        props.addTicketId(id);
+    function switchTicketInCartStatus(ticket, status) {
+        var newTickets = tickets;
+        newTickets.map((item) => {
+            if (item.id === ticket.id) {
+                item.isInCart = status;
+            }
+            return item;
+        });
+        setTickets(newTickets);
+    }
+
+    function addTicketToCart(id) {
+        for (var item of tickets) {
+            if (item.id === id) {
+                switchTicketInCartStatus(item, true);
+                props.addTicket(item);
+                return null;
+            }
+        }
+    }
+
+    function removeTicketFromCart(id) {
+        for (var item of tickets) {
+            if (item.id === id) {
+                switchTicketInCartStatus(item, false);
+                props.removeTicket(item);
+                return null;
+            }
+        }
     }
 
 
@@ -52,7 +81,7 @@ function TicketsContainer(props) {
             <Row>
                 <Col/>
                 <Col xl="8" lg="8" md="10" sm="12" xs="12">
-                <Button block variant="success" style={{ marginBottom: '1em' }} onClick={addTicketIdsToCart}>
+                <Button block variant="success" style={{ marginBottom: '1em' }} onClick={addSelectedTicketsToCart}>
                     Add all selected tickets to cart!
                     <svg style={{ marginLeft: '0.5em' }} width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-cart-plus-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fillRule="evenodd" d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM4 14a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm7 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9V5.5z"/>
@@ -76,7 +105,9 @@ function TicketsContainer(props) {
                                 currencyName={item.currencyName}
                                 carrierIcon={item.carrierIcon}
                                 carrierName={item.carrierName}
-                                addTicketIdToCart={addTicketIdToCart}
+                                addTicketToCart={addTicketToCart}
+                                removeTicketFromCart={removeTicketFromCart}
+                                isInCart={item.isInCart}
                             />
                         );
                     })

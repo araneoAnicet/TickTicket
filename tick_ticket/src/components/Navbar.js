@@ -10,26 +10,26 @@ class NavBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ticketIds: new Set()
+      tickets: new Set()
     }
 
-    this.addTicketId = this.addTicketId.bind(this);
-    this.removeTicketId = this.removeTicketId.bind(this);
+    this.addTicket = this.addTicket.bind(this);
+    this.removeTicket = this.removeTicket.bind(this);
   }
 
-  addTicketId(id) {
-    var newTicketIds = this.state.ticketIds;
-    newTicketIds.add(id);
+  addTicket(ticket) {
+    var newTickets = this.state.tickets;
+    newTickets.add(ticket);
     this.setState({
-      ticketIds: newTicketIds
+      tickets: newTickets
     });
   }
 
-  removeTicketId(id) {
-    var newTicketIds = this.state.ticketIds;
-    newTicketIds.delete(id);
+  removeTicket(ticket) {
+    var newTickets = this.state.tickets;
+    newTickets.delete(ticket);
     this.setState({
-      ticketIds: newTicketIds
+      tickets: newTickets
     });
   }
 
@@ -49,14 +49,17 @@ class NavBar extends React.Component {
       <path fillRule="evenodd" d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
     </svg>
           <Badge pill variant="primary">
-            {this.state.ticketIds.size}
+            {this.state.tickets.size}
           </Badge>
           </Nav.Link>
       </Nav>
     </Navbar.Collapse>
   </Navbar>
   <SearchersContainer/>
-  <TicketsContainer addTicketId={this.addTicketId}/>
+  <TicketsContainer
+  addTicket={this.addTicket}
+  removeTicket={this.removeTicket}
+  />
       </div>
     )
   }
