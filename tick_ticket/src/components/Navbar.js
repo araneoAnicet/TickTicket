@@ -13,7 +13,7 @@ class NavBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tickets: new Set(),
+      tickets: new Set(),  // tickets in Cart
     }
     this.addTicket = this.addTicket.bind(this);
     this.removeTicket = this.removeTicket.bind(this);
@@ -32,6 +32,7 @@ class NavBar extends React.Component {
   removeTicket(ticket) {
     var newTickets = this.state.tickets;
     newTickets.delete(ticket);
+    ticket.isInCart = false;
     this.setState({
       tickets: newTickets
     });
@@ -69,6 +70,7 @@ class NavBar extends React.Component {
         initialTicketsList={[
           {
               id: 0,
+              transportName: 'plane',
               departureTime: '1:12',
               arriveTime: '7:30',
               departureDate: '24 aug 2019',
@@ -87,8 +89,12 @@ class NavBar extends React.Component {
         addTicket={this.addTicket}
         removeTicket={this.removeTicket}
       />
-      <MyTickets ref={this.myTicketsReference} tickets={this.state.tickets}/>
-    
+        <MyTickets
+          ref={this.myTicketsReference}
+          tickets={this.state.tickets}
+          removeTicketFromCart={this.removeTicket}
+          />
+        
       </div>
     )
   }
