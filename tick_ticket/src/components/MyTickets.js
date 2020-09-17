@@ -4,10 +4,10 @@ import Col from 'react-bootstrap/Col';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Container from 'react-bootstrap/Container';
 
-function MyTickets(props) {
-
+function MyTickets(props, ref) {
+    console.log(props.tickets)
     function cartMessageComponent() {
-        if (props.tickets) {
+        if (props.tickets.size !== 0) {
             return (
                 <p>
                     There are <span className="text-danger">{props.tickets.size}</span> tickets in cart 
@@ -22,7 +22,7 @@ function MyTickets(props) {
     }
 
     return (
-        <Container style={{ marginTop: '2em' }}>
+        <Container style={{ marginTop: '2em' }} ref={ref}>
             <Col md={3} lg={3}/>
             <Col>
                 <Jumbotron className="bg-light">
@@ -49,4 +49,5 @@ function MyTickets(props) {
     );
 }
 
-export default MyTickets;
+const MyTicketsReference = React.forwardRef(MyTickets);
+export default MyTicketsReference;

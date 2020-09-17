@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 
 
-function SearchersContainer(props) {
+function SearchersContainer(props, ref) {
     
     const [searchers, setSearchers] = useState([
         {
@@ -65,7 +65,7 @@ function SearchersContainer(props) {
     }
 
     return (
-        <div style={{ marginTop: '2%' }}>
+        <div style={{ marginTop: '2%' }} ref={ref}>
             <Container fluid={true}>
       <Row>
         <Col>
@@ -100,5 +100,5 @@ function SearchersContainer(props) {
         </div>
     );
 }
-
-export default SearchersContainer;
+const SearchersContainerReference = React.forwardRef(SearchersContainer);
+export default SearchersContainerReference;
