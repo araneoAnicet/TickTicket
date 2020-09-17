@@ -9,7 +9,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 
 function MyTickets(props, ref) {
-    console.log(props.tickets)
+
     function cartMessageComponent() {
         if (props.tickets.size !== 0) {
             return (
