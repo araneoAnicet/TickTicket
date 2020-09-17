@@ -48,7 +48,6 @@ class NavBar extends React.Component {
     <Navbar.Collapse id="responsive-navbar-nav">         
       <Nav className="ml-auto">
         <Nav.Link className="ml-auto" onClick={() => {window.scrollTo(0, this.searchersContainerReference.current.offsetBottom)}}>Home</Nav.Link>
-        <Nav.Link className="ml-auto" href="topTrips">Top trips</Nav.Link>
         <Nav.Link className="ml-auto text-danger" onClick={() => {window.scrollTo(0, this.myTicketsReference.current.offsetTop)}}>
           My Tickets
           <svg style={{ marginLeft: '0.5em', marginBottom: '0.5em' }} width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-cart4" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
