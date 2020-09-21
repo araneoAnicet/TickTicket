@@ -1,6 +1,11 @@
 from django.db import models
 from datetime import datetime
 
+
+class User(models.Model):
+    name = models.CharField(max_length=50)
+
+
 class City(models.Model):
     name = models.CharField(max_length=85)
 
@@ -22,3 +27,7 @@ class Ticket(models.Model):
     currency_name = models.CharField(max_length=3, default='USD')
     number_of_available = models.DecimalField(default=1, decimal_places=3, max_digits=5)
     published_on = models.DateField(default=datetime.now)
+
+class BoughtTicket(Ticket):
+    owner = models.ForeignKey('User', null=True, on_delete=models.CASCADE, related_name='bought_ticket')
+    bought_on = models.DateTimeField(default=datetime.now)
