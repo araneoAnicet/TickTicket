@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 class City(models.Model):
     name = models.CharField(max_length=85)
@@ -11,12 +12,13 @@ class Carrier(models.Model):
 class Ticket(models.Model):
     departure_time = models.TimeField()
     arrive_time = models.TimeField()
-    departure_date = models.DateField()
-    arrive_date = models.DateField()
+    departure_date = models.DateField(default=datetime.now)
+    arrive_date = models.DateField(default=datetime.now)
+    available_until = models.DateField(default=datetime.now)
     departure_city = models.ForeignKey('City', on_delete=models.CASCADE, related_name='departure_tickets')
     arrive_city = models.ForeignKey('City', on_delete=models.CASCADE, related_name='arrive_tickets')
     carrier = models.ForeignKey('Carrier', on_delete=models.CASCADE, related_name='tickets')
     price = models.FloatField(default=0)
     currency_name = models.CharField(max_length=3, default='USD')
     number_of_available = models.DecimalField(default=1, decimal_places=3, max_digits=5)
-    published_on = models.DateField(auto_now=True)
+    published_on = models.DateField(default=datetime.now)
