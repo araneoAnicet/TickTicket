@@ -18,4 +18,5 @@ class Ticket(models.Model):
     carrier = models.ForeignKey('Carrier', on_delete=models.CASCADE, related_name='tickets')
     price = models.FloatField(default=0)
     currency_name = models.CharField(max_length=3, default='USD')
- 
+    number_of_available = models.DecimalField(default=1, decimal_places=3, max_digits=5)
+    published_on = models.DateField(auto_now=True)
