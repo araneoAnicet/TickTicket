@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .serializers import UserSerializer, CitySerializer
-from .models import User, City
+from .serializers import UserSerializer, CitySerializer, CarrierSerializer
+from .models import User, City, Carrier
 
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
@@ -9,3 +9,8 @@ class UserViewSet(viewsets.ModelViewSet):
 class CityViweSet(viewsets.ModelViewSet):
     serializer_class = CitySerializer
     queryset = City.objects.all()
+
+class CarrierViewSet(viewsets.ModelViewSet):
+    serializer_class = CarrierSerializer
+    queryset = Carrier.objects.all()
+
