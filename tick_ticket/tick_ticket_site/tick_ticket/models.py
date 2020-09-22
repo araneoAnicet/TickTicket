@@ -2,18 +2,16 @@ from django.db import models
 from datetime import datetime
 
 
-class CreditCard(models.Model):
-    number = models.DecimalField(null=True, decimal_places=15, max_digits=16)
-    name_on_card = models.CharField(null=True, max_length=60)
-    expire_date = models.DateField(null=True)
-
-
 class User(models.Model):
     name = models.CharField(max_length=50)
     email = models.EmailField(null=True, max_length=70)
     password = models.CharField(null=True, max_length=40)
-    credit_cards = models.ManyToManyField(CreditCard, related_name='owner')
 
+class CreditCard(models.Model):
+    number = models.DecimalField(null=True, decimal_places=15, max_digits=16)
+    name_on_card = models.CharField(null=True, max_length=60)
+    expire_date = models.DateField(null=True)
+    owner = models.ForeignKey(User, null=True, related_name='credit_card', on_delete=models.CASCADE)
 
 class City(models.Model):
     name = models.CharField(max_length=85)
