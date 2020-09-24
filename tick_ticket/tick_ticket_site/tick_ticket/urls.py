@@ -4,5 +4,6 @@ from . import views
 
 
 urlpatterns = [
-    path('tickets/', views.TicketsAPI.as_view())
+    path('tickets/', views.TicketsAPI.as_view()),
+    path('cities/', views.CitiesAPI.as_view())
 ]

@@ -6,7 +6,7 @@ from .models import User, City, Carrier, Ticket
 
 
 class TicketsAPI(APIView):
-    def get(self, request):
+    def post(self, request):
         query = Ticket.objects.all()
         arrive_city = request.data.get('arriveCity')
         departure_city = request.data.get('departureCity')
@@ -23,4 +23,12 @@ class TicketsAPI(APIView):
             query = query.filter(departure_date=departure_date)
 
         serializer = TicketSerializer(query, many=True)
+        return Response(serializer.data)
+
+class CitiesAPI(APIView):
+    def post(self, request):
+        query = City.objects.all()
+        if request.data.get('name'):
+            query = query.filter(name=request.data['name'])
+        serializer = CitySerializer(query, many=True)
         return Response(serializer.data)
