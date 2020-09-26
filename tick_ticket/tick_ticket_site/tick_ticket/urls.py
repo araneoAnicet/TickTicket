@@ -1,9 +1,9 @@
 from django.urls import path, include
 from . import views
-#from rest_framework import routers
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'cities', views.CitiesViewSet, basename='city')
 
 
-urlpatterns = [
-    path('tickets/', views.TicketsAPI.as_view()),
-    path('cities/', views.CitiesAPI.as_view())
-]
+urlpatterns = router.urls

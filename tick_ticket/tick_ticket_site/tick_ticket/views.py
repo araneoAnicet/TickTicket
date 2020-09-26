@@ -25,10 +25,9 @@ class TicketsAPI(APIView):
         serializer = TicketSerializer(query, many=True)
         return Response(serializer.data)
 
-class CitiesAPI(APIView):
-    def post(self, request):
+class CitiesViewSet(viewsets.ViewSet):
+    def list(self, request):
         query = City.objects.all()
-        if request.data.get('name'):
-            query = query.filter(name=request.data['name'])
         serializer = CitySerializer(query, many=True)
         return Response(serializer.data)
+
