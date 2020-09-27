@@ -7,4 +7,6 @@ router.register(r'cities', views.CitiesViewSet, basename='city')
 router.register(r'search_tickets', views.SearchersViewSet, basename='search_ticket')
 router.register(r'tickets', views.TicketsViewSet)
 
-urlpatterns = router.urls
+urlpatterns = [
+    path('', include(router.urls))
+]
