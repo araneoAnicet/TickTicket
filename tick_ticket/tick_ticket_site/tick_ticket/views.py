@@ -53,24 +53,6 @@ class CitiesViewSet(viewsets.ViewSet):
         serializer = CitySerializer(query, many=True)
         return Response(serializer.data)
 
-def requires_auth(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        token = request.headers.get('Authorization')
-        if not token:
-            return Response({
-                'message': 'Token is not provided'
-            })
-        try:
-            decoded_token = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-            return func(*args, **kwargs)
-        except:
-            return Response({
-                'message': 'token validation error'
-            })
-    return wrapper
-
-
 @api_view(['POST'])
 def user_sign_up(request):
     name = request.data.get('name')
@@ -132,7 +114,6 @@ def user_sing_in(request):
         'token': None
     })
 
-@requires_auth
 @api_view(['POST'])
 def buy_ticket(request):
     owner_email = jwt.decode(request.headers.get('Authorization'), SECRET_KEY, algorithms=['HS256'])
