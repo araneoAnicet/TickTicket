@@ -28,6 +28,7 @@ class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = [
+            'id',
             'departure_time',
             'arrive_time',
             'departure_date',
