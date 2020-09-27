@@ -82,3 +82,31 @@ def user_sign_up(request):
             'token': None
         }
     )
+
+@api_view(['POST'])
+def user_sing_in(request):
+    email = request.data.get('email')
+    password = request.data.get('password')
+
+    if email and password:
+        searched_user = User.objects.filter(email=email).first()
+        if searched_user:
+            encoded_jwt = jwt.encode({
+                'email': email,
+                'isUser': True
+            },
+            SECRET_KEY,
+            algorithm='HS256'
+            )
+            return Response({
+                'message': 'OK',
+                'token': encoded_jwt
+            })
+        return Response({
+            'message': 'Wrong e-mail or password',
+            'token': None
+        })
+    return Response({
+        'message': 'Some of these fields are missing: email, password',
+        'token': None
+    })
