@@ -8,5 +8,6 @@ router.register(r'search_tickets', views.SearchersViewSet, basename='search_tick
 router.register(r'tickets', views.TicketsViewSet)
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    path('sign_up', views.user_sign_up)
 ]

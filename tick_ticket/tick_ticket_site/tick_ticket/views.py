@@ -1,10 +1,12 @@
 from rest_framework import viewsets
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import UserSerializer, CitySerializer, CarrierSerializer, TicketSerializer
 from .models import User, City, Carrier, Ticket
 from django.db.models import Q
-
+import jwt
+from .config import SECRET_KEY
 
 class TicketsViewSet(viewsets.ModelViewSet):
     serializer_class = TicketSerializer
@@ -48,3 +50,35 @@ class CitiesViewSet(viewsets.ViewSet):
         serializer = CitySerializer(query, many=True)
         return Response(serializer.data)
 
+@api_view(['POST'])
+def user_sign_up(request):
+    name = request.data.get('name')
+    email = request.data.get('email')
+    password = request.data.get('password')
+    if name and email and password:
+        searched_user = User.objects.filter(email=email).first()
+        if searched_user:
+            return Response({
+                'message': 'User with this e-mail already exists.',
+                'token': None
+            })
+        new_user = User(name=name, email=email, password=password)
+        new_user.save()
+        encoded_jwt = jwt.encode(
+            {
+                'email': email,
+                'isUser': True
+            },
+            SECRET_KEY,
+            algorithm='HS256'
+        )
+        return Response({
+            'message': 'OK',
+            'token': encoded_jwt
+        })
+    return Response(
+        {
+            'message': 'Some of these fields are not provided: name, email, password.',
+            'token': None
+        }
+    )
