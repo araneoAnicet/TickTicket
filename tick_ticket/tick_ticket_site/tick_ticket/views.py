@@ -20,23 +20,24 @@ class SearchersViewSet(viewsets.ViewSet):
         round_trip_date = request.data.get('roundTripDate')
 
         if is_round_trip:
-            if departure_city:
-                query = query.filter(Q(departure_city=departure_city) | Q(departure_city=arrive_city))
-            if arrive_city:
-                query = query.filter(Q(arrive_city=arrive_city) | Q(arrive_city=departure_city))
-            if trip_date:
-                query = query.filter(depature_date=trip_date)
-            elif round_trip_date:
-                query = query.filter(depature_date=round_trip_date)
-            elif trip_date and round_trip_date:
-                query = query.filter(Q(depature_date=trip_date) | Q(depature_date=round_trip_date))
+            query = query.filter(
+                Q(
+                    Q(departure_city=departure_city &
+                        Q(arrive_city=arrive_city) &
+                        Q(departure_date=trip_date)) |
+                    Q(departure_city=arrive_city &
+                        Q(arrive_city=departure_city) &
+                        Q(departure_date=round_trip_date))
+                )
+            )
         else:
-            if departure_city:
-                query = query.filter(departure_city=departure_city)
-            if arrive_city:
-                query = query.filter(arrive_city=arrive_city)
-            if trip_date:
-                query = query.filter(departure_date=departure_date)
+            query = query.filter(
+                Q(
+                    departure_city=departure_city &
+                    Q(arrive_city=arrive_city) &
+                    Q(departure_date=trip_date)
+                )
+            )
             
         serializer = TicketSerializer(query, many=True)
         return Response(serializer.data)
