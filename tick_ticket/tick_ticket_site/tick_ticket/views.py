@@ -6,6 +6,7 @@ from .serializers import UserSerializer, CitySerializer, CarrierSerializer, Tick
 from .models import User, City, Carrier, Ticket
 from django.db.models import Q
 import jwt
+import bcrypt
 from .config import SECRET_KEY
 
 class TicketsViewSet(viewsets.ModelViewSet):
@@ -62,7 +63,7 @@ def user_sign_up(request):
                 'message': 'User with this e-mail already exists.',
                 'token': None
             })
-        new_user = User(name=name, email=email, password=password)
+        new_user = User(name=name, email=email, password=bcrypt.hashpw(password, bcrypt.gensalt()))
         new_user.save()
         encoded_jwt = jwt.encode(
             {
@@ -90,7 +91,7 @@ def user_sing_in(request):
 
     if email and password:
         searched_user = User.objects.filter(email=email).first()
-        if searched_user:
+        if searched_user and bcrypt.checkpw(password, searched_user.password):
             encoded_jwt = jwt.encode({
                 'email': email,
                 'isUser': True
