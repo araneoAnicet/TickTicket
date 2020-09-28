@@ -2,6 +2,7 @@ from django.urls import path, include
 from . import views
 from rest_framework import routers
 from rest_framework.authtoken import views as rest_views
+#from django.views.decorators.csrf import csrf_exempt
 
 router = routers.DefaultRouter()
 router.register(r'cities', views.CitiesViewSet, basename='city')
@@ -12,5 +13,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('sign_up', views.user_sign_up),
     path('sign_in', rest_views.obtain_auth_token),
-#    path('buy_tickets', views.buy_ticket)
+    path('buy_tickets', views.buy_ticket)
 ]
