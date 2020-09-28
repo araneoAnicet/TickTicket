@@ -1,11 +1,7 @@
 from django.db import models
 from datetime import datetime
+from django.contrib.auth.models import User
 
-
-class User(models.Model):
-    name = models.CharField(max_length=50)
-    email = models.EmailField(null=True, max_length=70)
-    password = models.CharField(null=True, max_length=40)
 
 class CreditCard(models.Model):
     number = models.DecimalField(null=True, decimal_places=15, max_digits=16)
