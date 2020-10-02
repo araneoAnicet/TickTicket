@@ -106,6 +106,59 @@ def user_sign_up(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def buy_ticket(request):
+    user = request.user
+    tickets = request.data.get('tickets')
+    if not tickets:
+        return Response({
+            'message': 'tickets field is missing.',
+            'payload': {
+                'request': {
+                    'body': request.data,
+                    'path': request.path,
+                    'method': request.method
+                }
+            }
+        })
+    
+    for ticket in tickets:
+        searched_ticket = Ticket.objects.filter(id=ticket.id).first()
+        if not searched_ticket or searched_ticket.number_of_available == 0:
+            return Response({
+                'message': 'Some tickets are missing.',
+                'payload': {
+                    'request': {
+                        'body': request.data,
+                        'path': request.path,
+                        'method': request.method
+                    }
+                }
+            })
+        new_bought_ticket = BoughtTicket(
+            departure_time = searched_ticket.departure_time,
+            arrive_time = searched_ticket.arrive_time,
+            departure_date = searched_ticket.departure_date,
+            arrive_date = searched_ticket.arrive_date,
+            available_until = searched_ticket.available_until,
+            departure_city = searched_ticket.departure_city,
+            arrive_city = searched_ticket.arrive_city,
+            carrier = searched_ticket.carrier,
+            price = searched_ticket.price,
+            currency_name = searched_ticket.currency_name,
+            number_of_available = searched_ticket.number_of_available,
+            published_on = searched_ticket.published_on,
+            owner = user,
+            bought_on = datetime.datetime.now
+        )
+        searched_ticket.number_of_available -= 1
+        searched_ticket.save()
+        new_bought_ticket.save()
     return Response({
-        'message': 'You are authenticated!'
+        'message': 'OK',
+        'payload': {
+            'request': {
+                'body': request.data,
+                'path': request.path,
+                'method': request.method
+            }
+        }
     })
