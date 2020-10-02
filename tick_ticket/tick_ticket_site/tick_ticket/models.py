@@ -1,7 +1,61 @@
 from django.db import models
 from datetime import datetime
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
+class UserManager(BaseUserManager):
+    def create_user(self, username='', email=None, password=None, **extra_fields):
+        if not email:
+            raise ValueError('Email field must be provided!')
+        if not password:
+            raise ValueError('Password field must be provided!')
+        
+        user = self.model(username=username, email=email)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password):
+        user = self.create_user(email=email, password=password)
+        user.is_admin = True
+        user.has_perm = True
+        user.save(using=self._db)
+        return user
+
+    def get_by_natural_key(self, email):
+        return self.get(email=email)
+
+class User(AbstractBaseUser):
+    username = models.CharField(blank=False, max_length=180)
+    email = models.EmailField(max_length=255, unique=True)
+    is_admin = models.BooleanField(default=False)
+
+    USERNAME_FIELD = 'email'
+
+    objects = UserManager()
+
+    def get_short_name(self):
+        return self.email
+
+    def get_full_name(self):
+        return self.email
+
+    def has_perms(self, perm, ob=None):
+        return True
+
+    def has_perm(self, obj=None):
+        if self.is_admin:
+            return True
+        return False
+
+    def has_module_perms(self, app_label):
+        return True
+
+    def natural_key(self):
+        return self.email
+    
+    @property
+    def is_staff(self):
+        return self.is_admin
 
 class CreditCard(models.Model):
     number = models.DecimalField(null=True, decimal_places=15, max_digits=16)
