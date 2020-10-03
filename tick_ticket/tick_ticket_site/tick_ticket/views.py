@@ -53,54 +53,6 @@ class CitiesViewSet(viewsets.ViewSet):
         serializer = CitySerializer(query, many=True)
         return Response(serializer.data)
 
-@api_view(['POST'])
-def user_sign_up(request):
-    username = request.data.get('username')
-    email = request.data.get('email')
-    password = request.data.get('password')
-    if username and email and password:
-        searched_user = User.objects.filter(username=username).first()
-        if searched_user:
-            print('\n\nUSER ALREADY EXISTS\n')
-            return Response({
-                'message': 'User already exists',
-                'payload': {
-                    'request': {
-                        'body': request.data,
-                        'path': request.path,
-                        'method': request.method
-                    }
-                }
-            })
-        new_user = User.objects.create_user(username=username, email=email, password=password)
-        token = Token.objects.create(user=new_user)
-        new_user.save()
-        token.save()
-        return Response({
-            'message': 'OK',
-            'user': {
-                'username': new_user.username,
-                'email': new_user.email
-            },
-            'token': token.key,
-            'payload': {
-                    'request': {
-                        'body': request.data,
-                        'path': request.path,
-                        'method': request.method
-                    }
-                }
-        })
-    return Response({
-        'message': 'Some of these fields are missing: username, email, password',
-        'payload': {
-                    'request': {
-                        'body': request.data,
-                        'path': request.path,
-                        'method': request.method
-                    }
-                }
-    })
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])

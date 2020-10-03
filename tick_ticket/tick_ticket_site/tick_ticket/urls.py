@@ -11,7 +11,7 @@ router.register(r'tickets', views.TicketsViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('sign_up', views.user_sign_up),
-    path('sign_in', rest_views.obtain_auth_token),
-    path('buy_tickets', views.buy_ticket)
+    path('buy_tickets', views.buy_ticket),
+    path(r'auth', include('rest_auth.urls')),
+    path(r'auth/registration', include('rest_auth.registration.urls'))
 ]

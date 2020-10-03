@@ -1,6 +1,6 @@
 from django.db import models
 from datetime import datetime
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 class UserManager(BaseUserManager):
     def create_user(self, username='', email=None, password=None, **extra_fields):
@@ -24,12 +24,15 @@ class UserManager(BaseUserManager):
     def get_by_natural_key(self, email):
         return self.get(email=email)
 
-class User(AbstractBaseUser):
+class User(AbstractUser):
     username = models.CharField(blank=False, max_length=180)
     email = models.EmailField(max_length=255, unique=True)
     is_admin = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = [
+        'password'
+        ]
 
     objects = UserManager()
 
