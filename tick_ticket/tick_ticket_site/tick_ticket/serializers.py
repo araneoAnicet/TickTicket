@@ -1,6 +1,38 @@
 from rest_framework import serializers
 from .models import User, City, Carrier, Ticket
 
+class RegisterSerializer(serializers.ModelSerializer):
+    repeat_password = serializers.CharField(max_length=360)
+    
+    class Meta:
+        model = User
+        fields = [
+            'username',
+            'email',
+            'password',
+            'repeat_password'
+        ]
+        extra_kwargs = {
+            'password': {
+                'write_only': True
+            }
+        }
+    
+    def save(self):
+        user = User(
+            username=self.validated_data['username'],
+            email=self.validated_data['email']
+        )
+
+        password = self.validated_data['password']
+        repeat_password = self.validated_data['repeat_password']
+        if password != repeat_password:
+            raise serializers.ValidationError({
+            'message': 'These fields must be equal: password, repeat_password'
+        })
+        user.set_password(self.validated_data['password'])
+        user.save()
+        return user
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

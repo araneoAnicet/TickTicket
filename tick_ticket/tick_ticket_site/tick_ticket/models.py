@@ -25,7 +25,7 @@ class UserManager(BaseUserManager):
         return self.get(email=email)
 
 class User(AbstractUser):
-    username = models.CharField(blank=False, max_length=180)
+    username = models.CharField(blank=True, max_length=180)
     email = models.EmailField(max_length=255, unique=True)
     is_admin = models.BooleanField(default=False)
 

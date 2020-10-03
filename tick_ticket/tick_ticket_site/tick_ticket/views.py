@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializers import UserSerializer, CitySerializer, CarrierSerializer, TicketSerializer
+from .serializers import UserSerializer, CitySerializer, CarrierSerializer, TicketSerializer, RegisterSerializer
 from .models import User, City, Carrier, Ticket, BoughtTicket
 from django.db.models import Q
 import datetime
@@ -52,6 +52,35 @@ class CitiesViewSet(viewsets.ViewSet):
         query = City.objects.all()
         serializer = CitySerializer(query, many=True)
         return Response(serializer.data)
+
+@api_view(['POST'])
+def registration(request):
+    serializer = RegisterSerializer(data=request.data)
+    if serializer.is_valid():
+        user = serializer.save()
+        token = Token.objects.create(user=user)
+        return Response({
+            'message': 'OK',
+            'token': token.key,
+            'payload': {
+                'reuqest': {
+                    'body': request.data,
+                    'path': request.path,
+                    'method': request.method
+                }
+            }
+        })
+    return Response({
+        'message': serializer.error_messages,
+        'errors': serializer.errors,
+        'payload': {
+            'request': {
+                'body': request.data,
+                'path': request.path,
+                'method': request.method
+            }
+        }
+    })
 
 
 @api_view(['POST'])
