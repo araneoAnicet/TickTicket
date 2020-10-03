@@ -4,12 +4,20 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticated
-from .serializers import UserSerializer, CitySerializer, CarrierSerializer, TicketSerializer, RegisterSerializer
 from .models import User, City, Carrier, Ticket, BoughtTicket
 from django.db.models import Q
+from django.contrib.auth import authenticate
 import datetime
-
+from .serializers import (
+    UserSerializer,
+    CitySerializer,
+    CarrierSerializer,
+    TicketSerializer,
+    RegisterSerializer,
+    LoginSerializer
+    )
 
 class TicketsViewSet(viewsets.ModelViewSet):
     serializer_class = TicketSerializer
@@ -52,6 +60,46 @@ class CitiesViewSet(viewsets.ViewSet):
         query = City.objects.all()
         serializer = CitySerializer(query, many=True)
         return Response(serializer.data)
+
+class Auth(ObtainAuthToken):
+
+    serializer_class = LoginSerializer
+    
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(
+            data=request.data,
+            context={
+                'request': request
+            }
+        )
+        serializer.is_valid(raise_exception=True)
+        user = authenticate(
+            email=serializer.validated_data['email'],
+            password=serializer.validated_data['password']
+            )
+        if not user:
+            return Response({
+                'message': 'Wrong e-mail or password',
+                'payload': {
+                    'request': {
+                        'body': request.data,
+                        'path': request.path,
+                        'method': request.method
+                    }
+                }
+            })
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({
+            'message': 'OK',
+            'token': token.key,
+            'payload': {
+                'request': {
+                    'body': request.data,
+                    'path': request.path,
+                    'method': request.method
+                }
+            }
+        })
 
 @api_view(['POST'])
 def registration(request):

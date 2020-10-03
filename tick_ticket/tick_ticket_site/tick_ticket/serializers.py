@@ -2,8 +2,9 @@ from rest_framework import serializers
 from .models import User, City, Carrier, Ticket
 
 class RegisterSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(required=False, max_length=360)
     repeat_password = serializers.CharField(max_length=360)
-    
+
     class Meta:
         model = User
         fields = [
@@ -33,6 +34,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.set_password(self.validated_data['password'])
         user.save()
         return user
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField(max_length=360)
+    password = serializers.CharField(max_length=360)
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
