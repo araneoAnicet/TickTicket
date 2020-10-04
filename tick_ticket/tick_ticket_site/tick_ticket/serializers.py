@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, City, Carrier, Ticket
+from .models import User, City, Carrier, Ticket, BoughtTicket
 
 class RegisterSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=False, max_length=360)
@@ -65,9 +65,12 @@ class CarrierSerializer(serializers.ModelSerializer):
 class TicketSerializer(serializers.ModelSerializer):
 
     carrier = CarrierSerializer(read_only=True)
+    arrive_city = CitySerializer()
+    departure_city = CitySerializer()
     class Meta:
         model = Ticket
         fields = [
+            'id',
             'departure_time',
             'arrive_time',
             'departure_date',
@@ -81,3 +84,10 @@ class TicketSerializer(serializers.ModelSerializer):
             'number_of_available',
             'published_on'
         ]
+
+class BoughtTicketSerializer(serializers.ModelSerializer):
+    owner = UserSerializer(read_only=True)
+    ticket = TicketSerializer(read_only=True)
+    class Meta:
+        model = BoughtTicket
+        fields = '__all__'

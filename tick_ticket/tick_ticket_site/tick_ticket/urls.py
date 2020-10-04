@@ -13,5 +13,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('buy_tickets', views.buy_ticket),
     path('auth/registration', views.registration),
-    path('auth/', views.Auth.as_view())
+    path('auth', views.Auth.as_view())
 ]

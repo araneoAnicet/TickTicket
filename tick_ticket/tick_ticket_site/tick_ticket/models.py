@@ -85,9 +85,11 @@ class Ticket(models.Model):
     carrier = models.ForeignKey(Carrier, on_delete=models.CASCADE, related_name='tickets')
     price = models.FloatField(default=0)
     currency_name = models.CharField(max_length=3, default='USD')
-    number_of_available = models.DecimalField(default=1, decimal_places=3, max_digits=5)
+    number_of_available = models.IntegerField(default=0)
     published_on = models.DateField(default=datetime.now)
 
-class BoughtTicket(Ticket):
+
+class BoughtTicket(models.Model):
+    ticket = models.ForeignKey(Ticket, null=True, on_delete=models.CASCADE, related_name='shopping_information')
     owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='bought_ticket')
     bought_on = models.DateTimeField(default=datetime.now)

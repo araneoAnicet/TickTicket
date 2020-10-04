@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import City, Carrier, Ticket, BoughtTicket, User
+from .models import City, Carrier, Ticket, User, BoughtTicket
 
 
 admin.site.register(City)
