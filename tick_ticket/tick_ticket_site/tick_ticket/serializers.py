@@ -63,10 +63,11 @@ class CarrierSerializer(serializers.ModelSerializer):
         ]
 
 class TicketSerializer(serializers.ModelSerializer):
+
+    carrier = CarrierSerializer(read_only=True)
     class Meta:
         model = Ticket
         fields = [
-            'id',
             'departure_time',
             'arrive_time',
             'departure_date',
