@@ -10,7 +10,8 @@ router.register(r'search_tickets', views.SearchersViewSet, basename='search_tick
 router.register(r'tickets', views.TicketsViewSet)
 
 payments_router = routers.DefaultRouter()
-router.register(r'get_publishable_key', views.get_stripe_publishable_key)
+payments_router.register(r'get_publishable_key', views.get_stripe_publishable_key)
+payments_router.register(r'create_checkout_session', views.create_checkout_session)
 
 urlpatterns = [
     path('', include(router.urls)),

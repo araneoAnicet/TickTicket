@@ -11,7 +11,7 @@ from django.db.models import Q
 from django.contrib.auth import authenticate
 import datetime
 import stripe
-from .config import STRIPE_SECRET_KEY, STRIPE_PUBLIC_KEY
+from .config import STRIPE_SECRET_KEY, STRIPE_PUBLIC_KEY, DOMAIN_URL
 from .serializers import (
     UserSerializer,
     CitySerializer,
@@ -21,8 +21,6 @@ from .serializers import (
     LoginSerializer,
     BoughtTicketSerializer
     )
-
-stripe.api_key = STRIPE_SECRET_KEY
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
@@ -39,6 +37,47 @@ def get_stripe_publishable_key(request):
             }
         }
     })
+
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def create_checkout_session(request):
+    serializer = TicketSerializer(data=request.data, many=True)
+    serializer.is_valid(raise_exception=True)
+    domain_url = DOMAIN_URL
+    stripe.api_key = STRIPE_SECRET_KEY
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            success_url=domain_url + 'success?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url=domain_url + 'cancelled',
+            payment_method_types=['card'],
+            mode='payment',
+            line_items=serializer.data
+        )
+        return Response({
+            'message': 'OK',
+            'purchased_items': serializer.data,
+            'payload': {
+                'request': {
+                    'body': request.data,
+                    'path': request.path,
+                    'method': request.method
+                }
+            }
+        })
+    except Exception as exception:
+        return Response({
+            'message': 'Error occured',
+            'error': str(exception),
+            'payload': {
+                'request': {
+                    'body': request.data,
+                    'path': request.path,
+                    'method': request.method
+                }
+            }
+        })
+
 
 class TicketsViewSet(viewsets.ModelViewSet):
     serializer_class = TicketSerializer
