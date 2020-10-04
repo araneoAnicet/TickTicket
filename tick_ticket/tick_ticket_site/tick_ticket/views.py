@@ -10,6 +10,8 @@ from .models import User, City, Carrier, Ticket, BoughtTicket
 from django.db.models import Q
 from django.contrib.auth import authenticate
 import datetime
+import stripe
+from .config import STRIPE_SECRET_KEY, STRIPE_PUBLIC_KEY
 from .serializers import (
     UserSerializer,
     CitySerializer,
@@ -19,6 +21,24 @@ from .serializers import (
     LoginSerializer,
     BoughtTicketSerializer
     )
+
+stripe.api_key = STRIPE_SECRET_KEY
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_stripe_publishable_key(request):
+    return Response({
+        'message': 'OK',
+        'publishable_key': STRIPE_PUBLIC_KEY,
+        'payload': {
+            'request': {
+                'body': request.data,
+                'path': request.path,
+                'method': request.method
+            }
+        }
+    })
 
 class TicketsViewSet(viewsets.ModelViewSet):
     serializer_class = TicketSerializer
