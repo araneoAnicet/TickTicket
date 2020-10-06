@@ -6,9 +6,11 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Modal from 'react-bootstrap/Modal';
+import '../style.css'
 
 
-function MyTickets(props, ref) {
+function MyTickets(props) {
 
     function cartMessageComponent() {
         if (props.tickets.size !== 0) {
@@ -128,11 +130,19 @@ function MyTickets(props, ref) {
 
 
     return (
-        <Container style={{ marginTop: '2em' }} ref={ref}>
+        <Modal
+            show={props.show}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+            dialogClassName="modal-90w"
+        >
+            <Modal.Body>
+            <Container style={{ marginTop: '2em' }}>
             <Col md={3} lg={3}/>
             <Col>
-                <Jumbotron className="bg-light">
-                    <Nav fill variant="tabs" defaultActiveKey="cart">
+                
+                    <Nav justify fill variant="tabs" defaultActiveKey="cart">
                         <Nav.Item>
                             <Nav.Link eventKey="cart">
                                 Cart
@@ -150,12 +160,19 @@ function MyTickets(props, ref) {
                     {cartMessageComponent()}
                     {cartTicketsComponent()}
                     {buyAllTicketsComponent()}
-                </Jumbotron>
+                
             </Col>
             <Col md={3} lg={3}/>
         </Container>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={props.onHide} variant="primary">
+                    Close
+                </Button>
+            </Modal.Footer>
+        </Modal>
     );
 }
 
-const MyTicketsReference = React.forwardRef(MyTickets);
-export default MyTicketsReference;
+
+export default MyTickets;

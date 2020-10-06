@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import StripePayment from './StripePayment';
 
 function MyVerticallyCenteredModal(props) {
     if (props.show) {
@@ -12,7 +13,7 @@ function MyVerticallyCenteredModal(props) {
                 centered
             >
               <Modal.Body>
-                <h4>Your credit cards</h4>
+                <StripePayment/>
               </Modal.Body>
               <Modal.Footer>
                 <Button onClick={props.onHide}>Close</Button>
