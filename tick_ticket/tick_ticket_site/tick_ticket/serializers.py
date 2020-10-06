@@ -91,3 +91,11 @@ class BoughtTicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = BoughtTicket
         fields = '__all__'
+
+class SearchersSerializer(serializers.Serializer):
+    mode = serializers.BooleanField()
+    from_city = serializers.CharField(max_length=85)
+    to_city = serializers.CharField(max_length=85)
+    one_way_date = serializers.DateField()
+    rount_trip_date = serializers.DateField()
+    transport_name = serializers.CharField(max_length=20)
