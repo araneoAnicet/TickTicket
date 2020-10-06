@@ -19,7 +19,8 @@ from .serializers import (
     TicketSerializer,
     RegisterSerializer,
     LoginSerializer,
-    BoughtTicketSerializer
+    BoughtTicketSerializer,
+    SearchersSerializer
     )
 
 
@@ -84,11 +85,13 @@ class TicketsViewSet(viewsets.ModelViewSet):
 class SearchersViewSet(viewsets.ViewSet):
     def list(self, request):
         query = Ticket.objects.all()
-        departure_city = request.data.get('departureCity')
-        arrive_city = request.data.get('arriveCity')
-        trip_date = request.data.get('tripDate')
-        is_round_trip = request.data.get('isRoundTrip')
-        round_trip_date = request.data.get('roundTripDate')
+        searchers_serializer = SearchersSerializer(data=request.data, many=True)
+        searchers_serializer.is_valid(raise_exception=True)
+        departure_city = searchers_serializer.data['city_from']
+        arrive_city = searchers_serializer.data['city_to']
+        trip_date = searchers_serializer.data['one_way_date']
+        is_round_trip = searchers_serializer.data['mode']
+        round_trip_date = searchers_serializer.data['round_trip_date']
 
         if is_round_trip:
             query = query.filter(
