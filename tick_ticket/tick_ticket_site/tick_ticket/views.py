@@ -169,7 +169,7 @@ def registration(request):
         user = serializer.save()
         token = Token.objects.create(user=user)
         return Response({
-            'message': 'OK',
+            'message': 'A new user has been created!',
             'token': token.key,
             'payload': {
                 'reuqest': {
