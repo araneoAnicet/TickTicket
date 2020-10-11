@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import StripePayment from './StripePayment';
+import RegistrationForm from './RegistrationForm';
+import LoginForm from './LoginForm';
 
 function MyVerticallyCenteredModal(props) {
+    const [registrationFormIsSet, setRegistrationFormIsSet] = useState(false);
+
     if (props.show) {
         return (
             <Modal
@@ -13,7 +16,14 @@ function MyVerticallyCenteredModal(props) {
                 centered
             >
               <Modal.Body>
-                <StripePayment/>
+                <RegistrationForm
+                  registrationFormIsSet={registrationFormIsSet}
+                  setLoginForm={() => {setRegistrationFormIsSet(true)}}
+                />
+                <LoginForm
+                  registrationFormIsSet={registrationFormIsSet}
+                  setRegistrationForm={() => {setRegistrationFormIsSet(false)}}
+                />
               </Modal.Body>
               <Modal.Footer>
                 <Button onClick={props.onHide}>Close</Button>
