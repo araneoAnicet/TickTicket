@@ -38,6 +38,7 @@ function RegistrationForm(props) {
                 </Alert>
             );
         }
+        return null;
     }
 
     function sumbitRegistration() {
