@@ -1,13 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Alert from 'react-bootstrap/Alert';
+import AppContext from './Context';
 
 
 
 function RegistrationForm(props) {
 
+    const context = useContext(AppContext);
     const [username, setUsername] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
@@ -64,7 +66,9 @@ function RegistrationForm(props) {
         }).then((response) => {
             return response.json(`${ajax_body}`);
         }).then((data) => {
+            console.log(data);
             if (data.message) {
+                context.setToken(data.token);
                 setServerResponseMessage(data.message);
             }
         });

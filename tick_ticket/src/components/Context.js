@@ -1,15 +1,8 @@
-import React, {useContext, useState} from 'react';
+import React from 'react';
 
-const [token, setToken] = useState('');
-
-function updateToken(token) {
-    setToken(token);
-    localStorage.setItem('token', token);
-}
-
-const AppContext = useContext({
-    token: token,
-    setToken: updateToken
+const AppContext = React.createContext({
+    token: '',
+    setToken: () => {}
 });
 
 export default AppContext;

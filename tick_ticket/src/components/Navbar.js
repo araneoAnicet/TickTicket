@@ -8,22 +8,31 @@ import SearchersContainer from './SearchersContainer';
 import MyTickets from './MyTickets';
 import CarrierIcon from '../carrierIcon.png';
 import MyVerticallyCenteredModal from './Modal';
+import Button from 'react-bootstrap/esm/Button';
+import AppContext from './Context';
+
 
 
 class NavBar extends React.Component {
+  static contextType = AppContext;
   constructor(props) {
     super(props);
     this.state = {
       tickets: new Set(),  // tickets in Cart
       showModal: false,
-      showCart: false
+      showCart: false,
+      token: ''
     }
     this.addTicket = this.addTicket.bind(this);
     this.removeTicket = this.removeTicket.bind(this);
     this.setShowModal = this.setShowModal.bind(this);
     this.setShowCart = this.setShowCart.bind(this);
     this.searchersContainerReference = React.createRef();
+    if (localStorage.getItem('token')) {
+      this.state.token = localStorage.getItem('token');
+    }
   }
+
 
   setShowModal(showModal) {
     this.setState({
@@ -54,6 +63,20 @@ class NavBar extends React.Component {
     });
   }
 
+  helloComponent() {
+    console.log(this.context.token);
+    if (this.context.token) {
+      return (
+        <Nav.Link className="ml-auto">
+            Nice to meet you again, <span className="text-danger">{this.context.token}</span>
+            <Button variant="outline-primary" onClick={() =>  {this.context.setToken('')}}>
+              Log out
+            </Button>
+            </Nav.Link>
+      );
+    }
+  }
+
   render() {
     return (
       <div>
@@ -62,6 +85,7 @@ class NavBar extends React.Component {
     <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
     <Navbar.Collapse id="responsive-navbar-nav">         
       <Nav className="ml-auto">
+        {this.helloComponent()}
         <Nav.Link className="ml-auto" onClick={() => {window.scrollTo(0, this.searchersContainerReference.current.offsetBottom)}}>
           Home
           </Nav.Link>
@@ -86,6 +110,7 @@ class NavBar extends React.Component {
   <MyVerticallyCenteredModal
       show={this.state.showModal}
       onHide={() => {this.setShowModal(false)}}
+      setTokenFunc={this.setToken}
     />
     <MyTickets
           tickets={this.state.tickets}

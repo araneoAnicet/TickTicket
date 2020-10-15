@@ -19,10 +19,12 @@ function MyVerticallyCenteredModal(props) {
                 <RegistrationForm
                   registrationFormIsSet={registrationFormIsSet}
                   setLoginForm={() => {setRegistrationFormIsSet(true)}}
+                  setTokenFunc={props.setTokenFunc}
                 />
                 <LoginForm
                   registrationFormIsSet={registrationFormIsSet}
                   setRegistrationForm={() => {setRegistrationFormIsSet(false)}}
+                  setTokenFunc={props.setTokenFunc}
                 />
               </Modal.Body>
               <Modal.Footer>

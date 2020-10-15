@@ -1,11 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
+import AppContext from './Context';
 
 
 function LoginForm(props) {
+    const context = useContext(AppContext);
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [serverResponseMessage, setServerResponseMessage] = useState(null);
@@ -53,7 +55,11 @@ function LoginForm(props) {
         }).then((response) => {
             return response.json();
         }).then((data) => {
+            console.log(data);
             if (data.message) {
+                if (data.token) {
+                    context.setToken(data.token);
+                }
                 setServerResponseMessage(data.message);
             }
         });
