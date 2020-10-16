@@ -14,5 +14,6 @@ urlpatterns = [
     path('payments', views.PaymentsViewSet.as_view()),
     path('buy_tickets', views.buy_ticket),
     path('auth/registration', views.registration),
-    path('auth', views.Auth.as_view())
+    path('auth', views.Auth.as_view()),
+    path('check_token', views.check_token)
 ]

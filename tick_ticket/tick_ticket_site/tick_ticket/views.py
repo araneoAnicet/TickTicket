@@ -223,3 +223,19 @@ def buy_ticket(request):
             }
         }
     })
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def check_token(request):
+    return Response({
+        'message': 'OK',
+        'email': request.user.email,
+        'payload': {
+            'request': {
+                'path': request.path,
+                'body': request.data,
+                'method': request.method
+            }
+        }
+    })
