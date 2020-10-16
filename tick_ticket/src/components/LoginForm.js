@@ -59,6 +59,7 @@ function LoginForm(props) {
             if (data.message) {
                 if (data.token) {
                     context.setToken(data.token);
+                    context.setEmail(email);
                 }
                 setServerResponseMessage(data.message);
             }

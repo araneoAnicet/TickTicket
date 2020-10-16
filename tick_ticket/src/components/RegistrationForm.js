@@ -69,6 +69,7 @@ function RegistrationForm(props) {
             console.log(data);
             if (data.message) {
                 context.setToken(data.token);
+                context.setEmail(email);
                 setServerResponseMessage(data.message);
             }
         });

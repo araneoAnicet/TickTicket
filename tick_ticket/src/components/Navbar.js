@@ -8,7 +8,6 @@ import SearchersContainer from './SearchersContainer';
 import MyTickets from './MyTickets';
 import CarrierIcon from '../carrierIcon.png';
 import MyVerticallyCenteredModal from './Modal';
-import Button from 'react-bootstrap/esm/Button';
 import AppContext from './Context';
 
 
@@ -67,11 +66,8 @@ class NavBar extends React.Component {
     console.log(this.context.token);
     if (this.context.token) {
       return (
-        <Nav.Link className="ml-auto">
-            Nice to meet you again, <span className="text-danger">{this.context.token}</span>
-            <Button variant="outline-primary" onClick={() =>  {this.context.setToken('')}}>
-              Log out
-            </Button>
+        <Nav.Link className="ml-auto" onClick={() => {this.context.setToken('')}}>
+              <span className="text-primary">Log out</span>, <span className="text-danger">{this.context.email}</span>?
             </Nav.Link>
       );
     }
