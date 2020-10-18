@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Alert from 'react-bootstrap/Alert';
 import AppContext from './Context';
+import config from './Config';
 
 
 
@@ -53,7 +54,7 @@ function RegistrationForm(props) {
 
         ajax_body = JSON.stringify(ajax_body);
 
-        fetch('http://localhost:8000/api/auth/registration', {
+        fetch(`${config.backendHost}/api/auth/registration`, {
             method: 'POST',
             mode: 'cors',
             dataType: 'json',
@@ -64,7 +65,7 @@ function RegistrationForm(props) {
             },
             body: ajax_body
         }).then((response) => {
-            return response.json(`${ajax_body}`);
+            return response.json();
         }).then((data) => {
             console.log(data);
             if (data.message) {

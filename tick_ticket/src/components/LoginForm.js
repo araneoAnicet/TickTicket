@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import AppContext from './Context';
+import config from './Config';
 
 
 function LoginForm(props) {
@@ -42,7 +43,7 @@ function LoginForm(props) {
             password: password
         }
         ajax_body = JSON.stringify(ajax_body);
-        fetch('http://localhost:8000/api/auth', {
+        fetch(`${config.backendHost}/api/auth`, {
             method: 'POST',
             mode: 'cors',
             dataType: 'json',
