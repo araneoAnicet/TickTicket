@@ -52,11 +52,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_WHITELIST = (
-       'http://localhost:3000',
 
-)
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', '192.168.1.33']
 
 
 ROOT_URLCONF = 'tick_ticket_site.urls'

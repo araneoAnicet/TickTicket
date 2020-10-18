@@ -82,39 +82,39 @@ class TicketsViewSet(viewsets.ModelViewSet):
     serializer_class = TicketSerializer
     queryset = Ticket.objects.all()
 
-class SearchersViewSet(viewsets.ViewSet):
-    def list(self, request):
-        query = Ticket.objects.all()
-        searchers_serializer = SearchersSerializer(data=request.data, many=True)
-        searchers_serializer.is_valid(raise_exception=True)
-        departure_city = searchers_serializer.data['city_from']
-        arrive_city = searchers_serializer.data['city_to']
-        trip_date = searchers_serializer.data['one_way_date']
-        is_round_trip = searchers_serializer.data['mode']
-        round_trip_date = searchers_serializer.data['round_trip_date']
+@api_view(['POST'])
+def search_tickets(request):
+    query = Ticket.objects.all()
+    searchers_serializer = SearchersSerializer(data=request.data, many=True)
+    searchers_serializer.is_valid(raise_exception=True)
+    departure_city = searchers_serializer.data['city_from']
+    arrive_city = searchers_serializer.data['city_to']
+    trip_date = searchers_serializer.data['one_way_date']
+    is_round_trip = searchers_serializer.data['mode']
+    round_trip_date = searchers_serializer.data['round_trip_date']
 
-        if is_round_trip:
-            query = query.filter(
-                Q(
-                    Q(departure_city=departure_city &
-                        Q(arrive_city=arrive_city) &
-                        Q(departure_date=trip_date)) |
-                    Q(departure_city=arrive_city &
-                        Q(arrive_city=departure_city) &
-                        Q(departure_date=round_trip_date))
-                )
-            )
-        else:
-            query = query.filter(
-                Q(
-                    departure_city=departure_city &
+    if is_round_trip:
+        query = query.filter(
+            Q(
+                Q(departure_city=departure_city &
                     Q(arrive_city=arrive_city) &
-                    Q(departure_date=trip_date)
-                )
+                    Q(departure_date=trip_date)) |
+                Q(departure_city=arrive_city &
+                    Q(arrive_city=departure_city) &
+                    Q(departure_date=round_trip_date))
             )
-            
-        serializer = TicketSerializer(query, many=True)
-        return Response(serializer.data)
+        )
+    else:
+        query = query.filter(
+            Q(
+                departure_city=departure_city &
+                Q(arrive_city=arrive_city) &
+                Q(departure_date=trip_date)
+            )
+        )
+        
+    serializer = TicketSerializer(query, many=True)
+    return Response(serializer.data)
 
 class CitiesViewSet(viewsets.ViewSet):
     def list(self, request):
