@@ -289,7 +289,7 @@ class Searcher extends React.Component {
                     <Col>
                     </Col>
                     <Col xl={4} lg={4} md={4} sm={4}>
-                    <Button variant="danger" block onClick={() => {console.log('Find button is pressed!');}}>Find!</Button>
+                   
                     </Col>
                 </Row>
             </Jumbotron>

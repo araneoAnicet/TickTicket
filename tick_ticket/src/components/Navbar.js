@@ -20,18 +20,25 @@ class NavBar extends React.Component {
       tickets: new Set(),  // tickets in Cart
       showModal: false,
       showCart: false,
+      showTicketsContainer: false,
       token: ''
     }
     this.addTicket = this.addTicket.bind(this);
     this.removeTicket = this.removeTicket.bind(this);
     this.setShowModal = this.setShowModal.bind(this);
     this.setShowCart = this.setShowCart.bind(this);
+    this.setShowTicketsContainer = this.setShowTicketsContainer.bind(this);
     this.searchersContainerReference = React.createRef();
     if (localStorage.getItem('token')) {
       this.state.token = localStorage.getItem('token');
     }
   }
 
+  setShowTicketsContainer(showTicketsContainer) {
+    this.setState({
+      showTicketsContainer: showTicketsContainer
+    });
+  }
 
   setShowModal(showModal) {
     this.setState({
@@ -114,12 +121,10 @@ class NavBar extends React.Component {
           show={this.state.showCart}
           onHide={() => {this.setShowCart(false)}}
           />
-  <SearchersContainer ref={this.searchersContainerReference}/>
+  <SearchersContainer showTickets={() => {this.setShowTicketsContainer(true)}} ref={this.searchersContainerReference}/>
       <hr/>
-      <h2 className="text-center">
-          Recommended tickets
-      </h2>
       <TicketsContainer
+        show={this.state.showTicketsContainer}
         initialTicketsList={[
           {
               id: 0,

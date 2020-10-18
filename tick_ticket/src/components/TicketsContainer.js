@@ -10,6 +10,9 @@ import Button from 'react-bootstrap/esm/Button';
 function TicketsContainer(props) {
     const [tickets, setTickets] = useState(props.initialTicketsList);
 
+    if (!props.show) {
+        return null;
+    }
 
     function addSelectedTicketsToCart() {
         for (var ticket of tickets) {

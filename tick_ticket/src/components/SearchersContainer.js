@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import config from './Config';
 
 
 function SearchersContainer(props, ref) {
@@ -46,22 +47,34 @@ function SearchersContainer(props, ref) {
     }
 
     function showSearchersData() {
-        for (var searcher of searchers) {
-            console.log(searcher.reference.current.getData());
-        }
-    }
-
-    function findAllTicketsComponent() {
-        return (
-            <Button variant="danger" block onClick={showSearchersData}>
-                Find all tickets!
-                </Button>
-        );
-    }
-
-    let findAllTicketsButton = null;
-    if (searchers.length > 1) {
-        findAllTicketsButton = findAllTicketsComponent();
+        props.showTickets();
+        let searchersData = searchers.map((searcher) => {
+            let data = searcher.reference.current.getData();
+            return {
+                mode: data.mode,
+                from_city: data.from,
+                to_city: data.to,
+                one_way_date: data.oneWayDate,
+                round_trip_date: data.roundTripDate,
+                transport_name: data.transportName
+            }
+        });
+        searchersData = JSON.stringify(searchersData);
+        fetch(`${config.backendHost}/api/search_tickets`, {
+            method: 'POST',
+            mode: 'cors',
+            dataType: 'json',
+            contentType: 'application/json',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: searchersData
+        }).then((response) => {
+            return response.json();
+        }).then((data) => {
+            console.log(`RESPONSE DATA FROM SEARCHERS: ${data}`);
+        })
     }
 
     return (
@@ -88,10 +101,12 @@ function SearchersContainer(props, ref) {
                     />
            })
        }
-       {findAllTicketsButton}
             <Button variant="success" block onClick={addSearcher}>
                 + Add trip route +
             </Button>
+            <Button variant="danger" block onClick={showSearchersData} style={{ marginTop: '1em' }}>
+                Find all tickets!
+                </Button>
        </Col>
        <Col>
        </Col>
