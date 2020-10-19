@@ -7,6 +7,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticated
 from .models import User, City, Carrier, Ticket, BoughtTicket
+from .Searcher import Searcher
 from django.db.models import Q
 from django.contrib.auth import authenticate
 import datetime
@@ -84,54 +85,29 @@ class TicketsViewSet(viewsets.ModelViewSet):
 
 @api_view(['POST'])
 def search_tickets(request):
-    query = Ticket.objects.all()
     searchers_serializer = SearchersSerializer(data=request.data, many=True)
     searchers_serializer.is_valid(raise_exception=True)
+    query = Ticket.objects.none()
     for searcher in searchers_serializer.validated_data:
-
-        print(f'\n\nSEARCHER: {searcher}\n')
         departure_city = City.objects.filter(name=searcher.get('from_city').get('name')).first()
         arrive_city = City.objects.filter(name=searcher.get('to_city').get('name')).first()
-        if not departure_city or not arrive_city:
-            return Response({
-                'message': 'These fields are missing: departure_city, arrive_city',
-                'payload': {
-                    'request': {
-                        'path': request.path,
-                        'body': request.data,
-                        'method': request.method
-                    }
-                }
-            })
+        transport_name = searcher.get('transport_name')
         trip_date = searcher.get('one_way_date')
         is_round_trip = searcher.get('mode')
         round_trip_date = searcher.get('round_trip_date')
 
-        if is_round_trip:
-            query = query.filter(
-                Q(
-                    Q(
-                        Q(departure_city=departure_city) &
-                        Q(arrive_city=arrive_city) &
-                        Q(departure_date=trip_date)
-                    )
-                     |
-                    Q(
-                        Q(departure_city=arrive_city) &
-                        Q(arrive_city=departure_city) &
-                        Q(departure_date=round_trip_date)
-                    )
-                )
-            )
-        else:
-            query = query.filter(
-                Q(
-                    Q(departure_city=departure_city) &
-                    Q(arrive_city=arrive_city) &
-                    Q(departure_date=trip_date)
-                )
-            )
-        
+        query = query | Searcher.mode(is_round_trip).from_city(
+            departure_city
+            ).to_city(
+                arrive_city
+                ).one_way_date(
+                    trip_date
+                    ).round_trip_date(
+                        round_trip_date
+                        ).transport_name(
+                            transport_name
+                        ).search()
+
     serializer = TicketSerializer(query, many=True)
     return Response(serializer.data)
 

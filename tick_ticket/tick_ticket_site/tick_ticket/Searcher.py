@@ -4,13 +4,13 @@ from .serializers import CitySerializer, TicketSerializer
 
 
 class SearcherMode:
-    self._model_class = Ticket
-    self._from_city = None
-    self._to_city = None
-    self._one_way_date = None
-    self._round_trip_date = None
-    self._transport_name = 'any'
-    self._query = Ticket.objects.all()
+    _model_class = Ticket
+    _from_city = None
+    _to_city = None
+    _one_way_date = None
+    _round_trip_date = None
+    _transport_name = 'any'
+    _query = Ticket.objects.all()
 
     def from_city(self, from_city):
         self._from_city = from_city
@@ -86,7 +86,7 @@ class OneWayTripModeSearcher(SearcherMode):
 
 class Searcher:
     staticmethod
-    def mode(self, mode):
+    def mode(mode):
         if mode:
             return RoundTripModeSearch()
         return OneWayTripModeSearcher()

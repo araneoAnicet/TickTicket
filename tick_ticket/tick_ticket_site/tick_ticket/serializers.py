@@ -71,6 +71,7 @@ class TicketSerializer(serializers.ModelSerializer):
         model = Ticket
         fields = [
             'id',
+            'transport_name',
             'departure_time',
             'arrive_time',
             'departure_date',

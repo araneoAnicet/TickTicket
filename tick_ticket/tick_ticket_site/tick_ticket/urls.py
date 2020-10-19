@@ -2,7 +2,7 @@ from django.urls import path, include
 from . import views
 from rest_framework import routers
 from rest_framework.authtoken import views as rest_views
-#from django.views.decorators.csrf import csrf_exempt
+
 
 router = routers.DefaultRouter()
 router.register(r'cities', views.CitiesViewSet, basename='city')
