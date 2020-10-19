@@ -94,7 +94,7 @@ class OneWayTripModeSearcher(SearcherMode):
 
 
 class Searcher:
-    staticmethod
+    @staticmethod
     def mode(mode):
         if mode:
             return RoundTripModeSearch()
