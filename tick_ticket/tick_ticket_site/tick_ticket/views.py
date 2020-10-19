@@ -86,7 +86,9 @@ class TicketsViewSet(viewsets.ModelViewSet):
 @api_view(['POST'])
 def search_tickets(request):
     searchers_serializer = SearchersSerializer(data=request.data, many=True)
+    print('\n\nBEFORE RAISING EXCEPTION\n')
     searchers_serializer.is_valid(raise_exception=True)
+    print('\n\nAFTER RAISING EXCEPTION\n')
     query = Ticket.objects.none()
     for searcher in searchers_serializer.validated_data:
         departure_city = City.objects.filter(name=searcher.get('from_city').get('name')).first()

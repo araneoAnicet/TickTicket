@@ -67,7 +67,7 @@ class CreditCard(models.Model):
     owner = models.ForeignKey(User, null=True, related_name='credit_card', on_delete=models.CASCADE)
 
 class City(models.Model):
-    name = models.CharField(max_length=85)
+    name = models.CharField(blank=True, max_length=85)
 
 class Carrier(models.Model):
     name = models.CharField(max_length=50)
@@ -75,7 +75,7 @@ class Carrier(models.Model):
     icon = models.ImageField(upload_to='carrier_icons/')
 
 class Ticket(models.Model):
-    transport_name = models.CharField(default='any', max_length=20)
+    transport_name = models.CharField(default='any', blank=True, max_length=20)
     departure_time = models.TimeField()
     arrive_time = models.TimeField()
     departure_date = models.DateField(default=datetime.now)

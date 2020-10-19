@@ -95,8 +95,8 @@ class BoughtTicketSerializer(serializers.ModelSerializer):
 
 class SearchersSerializer(serializers.Serializer):
     mode = serializers.BooleanField()
-    from_city = CitySerializer()
-    to_city = CitySerializer()
-    one_way_date = serializers.DateField()
-    round_trip_date = serializers.DateField()
-    transport_name = serializers.CharField(max_length=20)
+    from_city = CitySerializer(required=False, default=None)
+    to_city = CitySerializer(required=False, default=None)
+    one_way_date = serializers.DateField(required=False, default=None)
+    round_trip_date = serializers.DateField(required=False, default=None)
+    transport_name = serializers.CharField(default='any', required=False, max_length=20)
