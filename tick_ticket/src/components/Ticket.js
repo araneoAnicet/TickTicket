@@ -9,6 +9,7 @@ import Train from '../Train30.png';
 import Bus from '../Bus30.png';
 import Plane from '../Plane30.png';
 import '../style.css'
+import config from './Config';
 
 
 class Ticket extends React.Component {
@@ -134,7 +135,13 @@ class Ticket extends React.Component {
                     </Row>
                     <Row>
                         <Col md={2}>
-                            <img src={this.props.carrierIcon} alt=""></img>
+                            <img
+                            style={{
+                                maxWidth: '100px',
+                                maxHeight: '100px'
+                            }}
+                             src={`${config.backendHost}/api/image/${this.props.carrierName.replaceAll(' ', '%20')}`} 
+                             alt=""/>
                             <p>
                                 {this.props.carrierName}
                             </p>

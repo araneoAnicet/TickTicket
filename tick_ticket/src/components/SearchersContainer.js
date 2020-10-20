@@ -99,7 +99,6 @@ function SearchersContainer(props, ref) {
                     arriveCityName: ticket.arrive_city.name,
                     price: ticket.price,
                     currencyName: ticket.currency_name,
-                    carrierIcon: ticket.carrier_icon,
                     carrierName: ticket.carrier.name,
                     numberOfAvailableTickets: ticket.number_of_available
                 };

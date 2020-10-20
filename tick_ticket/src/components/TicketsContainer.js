@@ -87,7 +87,6 @@ function TicketsContainer(props) {
                                 arriveCityName={item.arriveCityName}
                                 price={item.price}
                                 currencyName={item.currencyName}
-                                carrierIcon={item.carrierIcon}
                                 carrierName={item.carrierName}
                                 transportName={item.transportName}
                                 addTicketToCart={addTicketToCart}
