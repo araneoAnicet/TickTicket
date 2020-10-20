@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {v4 as uuidv4} from 'uuid';
 import Searcher from './Searcher';
 import Button from 'react-bootstrap/Button';
@@ -6,10 +6,11 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import config from './Config';
+import AppContext from './Context';
 
 
 function SearchersContainer(props, ref) {
-    
+    const context = useContext(AppContext);
     const [searchers, setSearchers] = useState([
         {
             id: uuidv4(),
@@ -50,15 +51,27 @@ function SearchersContainer(props, ref) {
         props.showTickets();
         let searchersData = searchers.map((searcher) => {
             let data = searcher.reference.current.getData();
-            return {
+            let request_body = {
                 mode: data.mode,
-                from_city: data.from,
-                to_city: data.to,
-                one_way_date: data.oneWayDate,
-                round_trip_date: data.roundTripDate,
+                from_city: {
+                    name: data.from
+                },
+                to_city: {
+                    name: data.to
+                },
                 transport_name: data.transportName
             }
+           
+            if (data.oneWayDate) {
+                request_body.one_way_date = data.oneWayDate;
+            }
+            if (data.roundTripDate) {
+                request_body.round_trip_date = data.roundTripDate;
+            }
+            console.log(request_body);
+            return request_body;
         });
+        
         searchersData = JSON.stringify(searchersData);
         fetch(`${config.backendHost}/api/search_tickets`, {
             method: 'POST',
@@ -73,7 +86,23 @@ function SearchersContainer(props, ref) {
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            console.log(`RESPONSE DATA FROM SEARCHERS: ${data}`);
+            context.setSearchedTickets(data.map((ticket) => {
+                return {
+                    id: ticket.id,
+                    reference: React.createRef(),
+                    departureTime: ticket.departure_time,
+                    arriveTime: ticket.arrive_time,
+                    departureDate: ticket.departure_date,
+                    arriveDate: ticket.arrive_date,
+                    departureCityName: ticket.departure_city.name,
+                    arriveCityName: ticket.arrive_city.name,
+                    price: ticket.price,
+                    currencyName: ticket.currency_name,
+                    carrierIcon: ticket.carrier_icon,
+                    carrierName: ticket.carrier.name,
+                    numberOfAvailableTickets: ticket.number_of_available
+                };
+            }));
         })
     }
 

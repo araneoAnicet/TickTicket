@@ -4,7 +4,9 @@ const AppContext = React.createContext({
     email: '',
     setEmail: () => {},
     token: '',
-    setToken: () => {}
+    setToken: () => {},
+    searchedTickets: [],
+    setSearchedTickets: () => {}
 });
 
 export default AppContext;

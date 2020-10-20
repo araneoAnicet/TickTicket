@@ -1,14 +1,18 @@
-import React, {useState} from 'react'
+import React, {useContext} from 'react'
 import {v4 as uuidv4} from 'uuid';
 import Ticket from './Ticket';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/esm/Button';
+import AppContext from './Context';
 
 
 function TicketsContainer(props) {
-    const [tickets, setTickets] = useState(props.initialTicketsList);
+
+    const context = useContext(AppContext);
+    const tickets = context.searchedTickets;
+    const setTickets = context.setSearchedTickets;
 
     if (!props.show) {
         return null;

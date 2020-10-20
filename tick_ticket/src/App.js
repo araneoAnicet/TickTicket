@@ -7,6 +7,7 @@ import config from './components/Config';
 
 
 function App() {
+  const [searchedTickets, setSearchedTickets] = useState([]);
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [email, setEmail] = useState();
   
@@ -46,7 +47,9 @@ function App() {
         setToken: (token) => {
           localStorage.setItem('token', token);
           setToken(token);
-        }
+        },
+        searchedTickets: searchedTickets,
+        setSearchedTickets: setSearchedTickets
       }}
       >
       <AppBackground>
