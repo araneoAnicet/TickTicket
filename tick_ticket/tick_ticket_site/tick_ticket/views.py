@@ -8,6 +8,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticated
 from .models import User, City, Carrier, Ticket, BoughtTicket
 from .Searcher import Searcher
+from django.http import HttpResponse
 from django.db.models import Q
 from django.contrib.auth import authenticate
 import datetime
@@ -21,9 +22,28 @@ from .serializers import (
     RegisterSerializer,
     LoginSerializer,
     BoughtTicketSerializer,
-    SearchersSerializer
+    SearchersSerializer,
+    CarrierSerializer
     )
 
+@api_view(['GET'])
+def image(request, carrier_name):
+    
+    carrier = Carrier.objects.filter(name=carrier_name).first()
+    if not carrier:
+        return Response({
+            'message': 'Carrier was not found',
+            'payload': {
+                'request': {
+                    'path': request.path,
+                    'body': request.data,
+                    'method': request.method
+                }
+            }
+        })
+
+    with open(f'./{carrier.icon}', 'rb') as image_file:
+        return HttpResponse(image_file.read(), content_type='image/png')
 
 class PaymentsViewSet(APIView):
     authentication_classes = [TokenAuthentication]

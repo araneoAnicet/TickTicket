@@ -15,5 +15,6 @@ urlpatterns = [
     path('auth/registration', views.registration),
     path('auth', views.Auth.as_view()),
     path('check_token', views.check_token),
-    path('search_tickets', views.search_tickets)
+    path('search_tickets', views.search_tickets),
+    path('image/<str:carrier_name>/', views.image)
 ]
