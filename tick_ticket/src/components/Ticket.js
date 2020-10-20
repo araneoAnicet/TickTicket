@@ -15,6 +15,16 @@ class Ticket extends React.Component {
 
     constructor(props) {
         super(props);
+        var transportIcon = 'any';
+        if (props.transportName === 'plane') {
+            transportIcon = Plane;
+        } else if (props.transportName === 'train') {
+            transportIcon = Train;
+        } else if (props.transportName === 'bus') {
+            transportIcon = Bus;
+        } else {
+            transportIcon = null
+        }
         this.state = {
             backgroundStyle: {
                 green: {
@@ -31,14 +41,8 @@ class Ticket extends React.Component {
                 backgroundColor: 'rgba(255, 255, 255, 0.95)'
             },
             isSelected: false,
-            transportIcons: {
-                train: Train,
-                bus: Bus,
-                plane: Plane
-            },
-            icon: Plane
+            icon: transportIcon
         }
-
         this.select = this.select.bind(this);
         this.deselect = this.deselect.bind(this);
         this.isSelected = this.isSelected.bind(this);

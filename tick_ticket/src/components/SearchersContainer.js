@@ -90,6 +90,7 @@ function SearchersContainer(props, ref) {
                 return {
                     id: ticket.id,
                     reference: React.createRef(),
+                    transportName: ticket.transport_name,
                     departureTime: ticket.departure_time,
                     arriveTime: ticket.arrive_time,
                     departureDate: ticket.departure_date,
