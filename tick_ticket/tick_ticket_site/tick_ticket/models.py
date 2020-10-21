@@ -93,4 +93,5 @@ class Ticket(models.Model):
 class BoughtTicket(models.Model):
     ticket = models.ForeignKey(Ticket, null=True, on_delete=models.CASCADE, related_name='shopping_information')
     owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE, related_name='bought_ticket')
-    bought_on = models.DateTimeField(default=datetime.now)
+    bought_on_date = models.DateField(default=datetime.now)
+    bought_on_time = models.TimeField(default=datetime.now)

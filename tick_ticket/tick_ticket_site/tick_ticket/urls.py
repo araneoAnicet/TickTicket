@@ -16,5 +16,6 @@ urlpatterns = [
     path('auth', views.Auth.as_view()),
     path('check_token', views.check_token),
     path('search_tickets', views.search_tickets),
-    path('image/<str:carrier_name>/', views.image)
+    path('image/<str:carrier_name>/', views.image),
+    path('history', views.get_bought_tickets)
 ]

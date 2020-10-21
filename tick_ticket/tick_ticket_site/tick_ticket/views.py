@@ -254,3 +254,21 @@ def check_token(request):
             }
         }
     })
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_bought_tickets(request):
+    tickets = request.user.bought_ticket
+    serializer = BoughtTicketSerializer(tickets, many=True)
+    return Response({
+        'message': 'OK',
+        'bought_tickets': serializer.data,
+        'payload': {
+            'request': {
+                'path': request.path,
+                'body': request.data,
+                'method': request.method
+            }
+        }
+    })
