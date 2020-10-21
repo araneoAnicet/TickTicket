@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
@@ -6,12 +6,100 @@ import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Modal from 'react-bootstrap/Modal';
-import '../style.css'
+import '../style.css';
+import config from './Config';
 
 
 function MyTickets(props) {
 
+    const [cartIsSelected, setCartIsSelected] = useState(true)
+    const [boughtTickets, setBoughtTickets] = useState([]);
+
+    function handleSelect(event) {
+        setCartIsSelected(event === 'cart');
+        fetch(`${config.backendHost}/api/history`, {
+            method: 'GET',
+            mode: 'cors',
+            dataType: 'json',
+            contentType: 'application/json',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${localStorage.getItem('token')}`
+            }
+        }).then((response) => {
+            return response.json();
+        }).then((data) => {
+            if (data.bought_tickets) {
+                setBoughtTickets(data.bought_tickets);
+            }
+        });
+    }
+
+    function historyTicketsComponent() {
+
+        if (cartIsSelected) {
+            return null;
+        }
+        return (
+            <div>
+                {
+                    Array.from(boughtTickets).map((item) => {
+                        return <Container>
+                            <Row>
+                                <Col>
+                                <p>
+                                    #<span className="text-danger">{item.ticket.id}</span>
+                                </p>
+                                </Col>
+                                <Col>
+                                Transport: <span className="text-danger">{item.ticket.transport_name}</span>
+                                </Col>
+                                <Col>
+                                <p>
+                                    Carrier: <span className="text-danger">{item.ticket.carrier.name}</span>
+                                </p>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                From:
+                                <p>
+                                    <strong className="text-danger">{item.ticket.departure_city.name}</strong>
+                                    <strong> {item.ticket.departure_date} </strong>
+                                    <strong className="text-danger">{item.ticket.departure_time.slice(0, 5)}</strong>
+                                </p>
+                                </Col>
+                                <Col>
+                                To:
+                                <p>
+                                    <strong className="text-danger">{item.ticket.arrive_city.name}</strong>
+                                    <strong> {item.ticket.arrive_date} </strong>
+                                    <strong className="text-danger">{item.ticket.arrive_time.slice(0, 5)}</strong>
+                                </p>
+                                </Col>
+                                <Col>
+                                <h3>
+                                        <span className="text-danger">{item.ticket.price}</span> <span>{item.ticket.currency_name}</span>
+                                    </h3>
+                                </Col>
+                                <Col>
+                                    <p>bought on: {item.bought_on_time}</p>
+                                    <p>{item.bought_on_date}</p>
+                                </Col>
+                            </Row>
+                            <hr/>
+                        </Container>
+                        })
+                    }
+            </div>
+        );
+    }
+
     function cartMessageComponent() {
+        if (!cartIsSelected) {
+            return null;
+        }
         if (props.tickets.size !== 0) {
             return (
                 <p>
@@ -27,6 +115,9 @@ function MyTickets(props) {
     }
 
     function cartTicketsComponent() {
+        if (!cartIsSelected) {
+            return null;
+        }
         return (
             <div>
                 {
@@ -91,6 +182,9 @@ function MyTickets(props) {
     }
 
     function buyAllTicketsComponent() {
+        if (!cartIsSelected) {
+            return null;
+        }
         if (props.tickets.size !== 0) {
             var totalPrice = 0;
             for (var ticket of props.tickets) {
@@ -141,7 +235,7 @@ function MyTickets(props) {
             <Col md={3} lg={3}/>
             <Col>
                 
-                    <Nav justify fill variant="tabs" defaultActiveKey="cart">
+                    <Nav justify fill variant="tabs" defaultActiveKey="cart" onSelect={handleSelect}>
                         <Nav.Item>
                             <Nav.Link eventKey="cart">
                                 Cart
@@ -159,6 +253,7 @@ function MyTickets(props) {
                     {cartMessageComponent()}
                     {cartTicketsComponent()}
                     {buyAllTicketsComponent()}
+                    {historyTicketsComponent()}
                 
             </Col>
             <Col md={3} lg={3}/>
