@@ -127,11 +127,11 @@ def search_tickets(request):
     serializer = TicketSerializer(query, many=True)
     return Response(serializer.data)
 
-class CitiesViewSet(viewsets.ViewSet):
-    def list(self, request):
-        query = City.objects.all()
-        serializer = CitySerializer(query, many=True)
-        return Response(serializer.data)
+@api_view(['GET'])
+def get_cities(request):
+    cities = City.objects.all()
+    serializer = CitySerializer(cities, many=True)
+    return Response(serializer.data)
 
 class Auth(ObtainAuthToken):
 

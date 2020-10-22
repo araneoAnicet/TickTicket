@@ -4,11 +4,7 @@ from rest_framework import routers
 from rest_framework.authtoken import views as rest_views
 
 
-router = routers.DefaultRouter()
-router.register(r'cities', views.CitiesViewSet, basename='city')
-
 urlpatterns = [
-    path('', include(router.urls)),
     path('payments', views.PaymentsViewSet.as_view()),
     path('buy_tickets', views.buy_ticket),
     path('auth/registration', views.registration),
@@ -16,5 +12,6 @@ urlpatterns = [
     path('check_token', views.check_token),
     path('search_tickets', views.search_tickets),
     path('image/<str:carrier_name>/', views.image),
-    path('history', views.get_bought_tickets)
+    path('history', views.get_bought_tickets),
+    path('list_cities', views.get_cities),
 ]
