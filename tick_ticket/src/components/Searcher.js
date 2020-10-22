@@ -5,7 +5,6 @@ import Jumbotron from 'react-bootstrap/Jumbotron';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import InputGroup from 'react-bootstrap/InputGroup';
 import '../style.css';
 import 'react-calendar/dist/Calendar.css';
 import Bus from '../Bus30.png';
@@ -14,6 +13,8 @@ import Train from '../Train30.png';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import '../react-datepicker.css'
+import {Typeahead} from 'react-bootstrap-typeahead';
+import config from './Config';
 
 
 class Searcher extends React.Component {
@@ -32,6 +33,7 @@ class Searcher extends React.Component {
             oneWayDate: props.oneWayDate,
             roundTripDate: props.roundTripDate,
             transportName: props.transportName,
+            cities: [],
             transport: {
                 train: null,
                 plane: null,
@@ -51,6 +53,23 @@ class Searcher extends React.Component {
         this.getData = this.getData.bind(this);
     }
 
+    componentDidMount() {        
+        fetch(`${config.backendHost}/api/list_cities`, {
+            method: 'GET',
+            mode: 'cors',
+            dataType: 'json',
+            headers: {
+                'Accept': 'application/json'
+            }
+        }).then((response) => {
+            return response.json();
+        }).then((data) => {
+            this.setState({
+                cities: data
+            });
+        });
+
+    }
     getData() {
         let returnedState = {
             mode: this.state.mode,
@@ -64,6 +83,7 @@ class Searcher extends React.Component {
         if (this.state.localRoundTripDate != null) {
             returnedState.roundTripDate = moment(this.state.localRoundTripDate).format('yyyy-MM-DD');
         }
+        console.log(returnedState);
         return returnedState;
     }
 
@@ -72,31 +92,10 @@ class Searcher extends React.Component {
                 
                 <Row style={{ marginTop: '1em' }}>
                     <Col xl={4} lg={4} md={4} sm={4}>
-                        <InputGroup>
                         <Form.Control value={this.state.to} placeholder="To.." disabled/>
-                        <InputGroup.Append>
-                            <InputGroup.Text>
-                            <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-                            </svg>
-                            </InputGroup.Text>
-                        </InputGroup.Append>
-                        </InputGroup>
-                    
-                  
                     </Col>
                     <Col xl={4} lg={4} md={4} sm={4}>
-                        <InputGroup>
-                        <InputGroup.Prepend>
-                            <InputGroup.Text>
-                            <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-left" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-                            </svg>
-                            </InputGroup.Text>
-                        </InputGroup.Prepend>
                         <Form.Control value={this.state.from} placeholder="From.." disabled/>
-                        </InputGroup>
-                  
                     </Col>
                     <Col xl={4} lg={4} md={4} sm={4}>
                         Date:
@@ -204,12 +203,22 @@ class Searcher extends React.Component {
     }
 
 
-    onFromChange(event) {
-        this.setFrom(event.target.value);
+    onFromChange(city) {
+        if (city instanceof Array) {
+            this.setFrom(city[0].name);
+        }
+        if (city instanceof String) {
+            this.setFrom(city);
+        }
     }
 
-    onToChange(event) {
-        this.setTo(event.target.value);
+    onToChange(city) {
+        if (city instanceof Array) {
+            this.setTo(city[0].name);
+        }
+        if (city instanceof String) {
+            this.setTo(city);
+        }
     }
 
     render() {
@@ -259,28 +268,28 @@ class Searcher extends React.Component {
                 <Form style={{ margitBottom: '5em' }}>
                 <Row>
                     <Col xl={4} lg={4} md={4} sm={4}>
-                        <InputGroup>
-                            <Form.Control onChange={this.onFromChange} placeholder="From.." />
-                            <InputGroup.Append>
-                            <InputGroup.Text>
-                            <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                            </svg>
-                            </InputGroup.Text>
-                            </InputGroup.Append>
-                        </InputGroup>
+                        
+                            <Typeahead
+                                id="basic-typeahead-single"
+                                labelKey="name"
+                                onChange={this.onFromChange}
+                                options={this.state.cities}
+                                placeholder="From.."
+                                
+                            />
+                       
                     </Col>
                     <Col xl={4} lg={4} md={4} sm={4}>
-                        <InputGroup>
-                            <InputGroup.Prepend>
-                                <InputGroup.Text>
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-                                </svg>
-                                </InputGroup.Text>
-                            </InputGroup.Prepend>
-                            <Form.Control onChange={this.onToChange} placeholder="To.." />
-                        </InputGroup>
+                        
+                        <Typeahead
+                                id="basic-typeahead-single"
+                                labelKey="name"
+                                onChange={this.onToChange}
+                                options={this.state.cities}
+                                placeholder="To.."
+                                
+                            />
+                        
                     </Col>
                     <Col xl={4} lg={4} md={4} sm={4}>
                         Date:
