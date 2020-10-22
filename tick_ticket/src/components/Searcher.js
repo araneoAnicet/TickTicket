@@ -52,15 +52,19 @@ class Searcher extends React.Component {
     }
 
     getData() {
-
-        return {
+        let returnedState = {
             mode: this.state.mode,
             from: this.state.from,
             to: this.state.to,
-            oneWayDate: moment(this.state.localOneWayDate).format('yyyy-MM-DD'),
-            roundTripDate: moment(this.state.localRoundTripDate).format('yyyy-MM-DD'),
             transportName: this.state.transportName
         };
+        if (this.state.localOneWayDate != null) {
+            returnedState.oneWayDate = moment(this.state.localOneWayDate).format('yyyy-MM-DD');
+        }
+        if (this.state.localRoundTripDate != null) {
+            returnedState.roundTripDate = moment(this.state.localRoundTripDate).format('yyyy-MM-DD');
+        }
+        return returnedState;
     }
 
     roundTripComponent() {
@@ -95,10 +99,13 @@ class Searcher extends React.Component {
                   
                     </Col>
                     <Col xl={4} lg={4} md={4} sm={4}>
+                        Date:
                     <DatePicker
+                    isClearable
                     selected={this.state.localRoundTripDate}
                     onChange={(newLocalRoundTripDate) => {this.setState({localRoundTripDate: newLocalRoundTripDate})}}
                     dateFormat="yyyy/MM/dd"
+                    placeholderText="select date"
                 />
                     </Col>
                 </Row>
@@ -276,10 +283,13 @@ class Searcher extends React.Component {
                         </InputGroup>
                     </Col>
                     <Col xl={4} lg={4} md={4} sm={4}>
+                        Date:
                     <DatePicker
+                    isClearable
                     selected={this.state.localOneWayDate}
                     onChange={(newLocalOneWayDate) => {this.setState({localOneWayDate: newLocalOneWayDate})}}
                     dateFormat="yyyy/MM/dd"
+                    placeholderText="select date"
                 />
                     </Col>
                 </Row>
