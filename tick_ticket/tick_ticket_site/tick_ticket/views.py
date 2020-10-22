@@ -99,10 +99,6 @@ class PaymentsViewSet(APIView):
                 }
             })
 
-class TicketsViewSet(viewsets.ModelViewSet):
-    serializer_class = TicketSerializer
-    queryset = Ticket.objects.all()
-
 @api_view(['POST'])
 def search_tickets(request):
     searchers_serializer = SearchersSerializer(data=request.data, many=True)

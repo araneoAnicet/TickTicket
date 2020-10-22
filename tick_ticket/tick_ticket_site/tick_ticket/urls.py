@@ -6,7 +6,6 @@ from rest_framework.authtoken import views as rest_views
 
 router = routers.DefaultRouter()
 router.register(r'cities', views.CitiesViewSet, basename='city')
-router.register(r'tickets', views.TicketsViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
