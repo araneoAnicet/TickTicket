@@ -70,7 +70,6 @@ class NavBar extends React.Component {
   }
 
   helloComponent() {
-    console.log(this.context.token);
     if (this.context.token) {
       return (
         <Nav.Link className="ml-auto" onClick={() => {this.context.setToken('')}}>

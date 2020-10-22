@@ -7,9 +7,13 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
 import '../style.css';
+import 'react-calendar/dist/Calendar.css';
 import Bus from '../Bus30.png';
 import Plane from '../Plane30.png';
 import Train from '../Train30.png';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import '../react-datepicker.css'
 
 
 class Searcher extends React.Component {
@@ -18,9 +22,13 @@ class Searcher extends React.Component {
         super(props);
         this.state = {
             id: props.id,
+            showOneWayDate: false,
+            showRoundTripDate: false,
             mode: props.mode,  // false - oneWay; true - roundTrip
             from: props.from,
             to: props.to,
+            localOneWayDate: moment.now(),
+            localRoundTripDate: moment.now(),
             oneWayDate: props.oneWayDate,
             roundTripDate: props.roundTripDate,
             transportName: props.transportName,
@@ -41,16 +49,16 @@ class Searcher extends React.Component {
         this.onToChange = this.onToChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.getData = this.getData.bind(this);
-
     }
 
     getData() {
+
         return {
             mode: this.state.mode,
             from: this.state.from,
             to: this.state.to,
-            oneWayDate: this.state.oneWayDate,
-            roundTripDate: this.state.roundTripDate,
+            oneWayDate: moment(this.state.localOneWayDate).format('yyyy-MM-DD'),
+            roundTripDate: moment(this.state.localRoundTripDate).format('yyyy-MM-DD'),
             transportName: this.state.transportName
         };
     }
@@ -87,13 +95,11 @@ class Searcher extends React.Component {
                   
                     </Col>
                     <Col xl={4} lg={4} md={4} sm={4}>
-                    <Button variant="outline-dark" block>
-                    <svg style={{marginRight: '0.5em'}} width="1.5em" height="1.5em" viewBox="0 0 16 16" className="bi bi-calendar-date" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fillRule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                    <path d="M6.445 11.688V6.354h-.633A12.6 12.6 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23z"/>
-                    </svg>
-                        Date
-                        </Button>
+                    <DatePicker
+                    selected={this.state.localRoundTripDate}
+                    onChange={(newLocalRoundTripDate) => {this.setState({localRoundTripDate: newLocalRoundTripDate})}}
+                    dateFormat="yyyy/MM/dd"
+                />
                     </Col>
                 </Row>
                 
@@ -270,13 +276,11 @@ class Searcher extends React.Component {
                         </InputGroup>
                     </Col>
                     <Col xl={4} lg={4} md={4} sm={4}>
-                    <Button variant="outline-dark" block>
-                    <svg style={{marginRight: '0.5em'}} width="1.5em" height="1.5em" viewBox="0 0 16 16" className="bi bi-calendar-date" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fillRule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                    <path d="M6.445 11.688V6.354h-.633A12.6 12.6 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23z"/>
-                    </svg>
-                        Date
-                        </Button>
+                    <DatePicker
+                    selected={this.state.localOneWayDate}
+                    onChange={(newLocalOneWayDate) => {this.setState({localOneWayDate: newLocalOneWayDate})}}
+                    dateFormat="yyyy/MM/dd"
+                />
                     </Col>
                 </Row>
                 {tripMode}

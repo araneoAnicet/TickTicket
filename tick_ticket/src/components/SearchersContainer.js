@@ -68,7 +68,6 @@ function SearchersContainer(props, ref) {
             if (data.roundTripDate) {
                 request_body.round_trip_date = data.roundTripDate;
             }
-            console.log(request_body);
             return request_body;
         });
         
