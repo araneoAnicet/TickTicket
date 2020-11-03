@@ -70,7 +70,6 @@ function SearchersContainer(props, ref) {
             }
             return request_body;
         });
-        
         searchersData = JSON.stringify(searchersData);
         fetch(`${config.backendHost}/api/search_tickets`, {
             method: 'POST',
@@ -86,6 +85,7 @@ function SearchersContainer(props, ref) {
             return response.json();
         }).then((data) => {
             context.setSearchedTickets(data.map((ticket) => {
+                
                 return {
                     id: ticket.id,
                     reference: React.createRef(),

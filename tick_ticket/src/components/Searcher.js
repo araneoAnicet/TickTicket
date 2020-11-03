@@ -65,7 +65,9 @@ class Searcher extends React.Component {
             return response.json();
         }).then((data) => {
             this.setState({
-                cities: data
+                cities: data.map((city) => {
+                    return city.name;
+                })
             });
         });
 
@@ -83,7 +85,6 @@ class Searcher extends React.Component {
         if (this.state.localRoundTripDate != null) {
             returnedState.roundTripDate = moment(this.state.localRoundTripDate).format('yyyy-MM-DD');
         }
-        console.log(returnedState);
         return returnedState;
     }
 
@@ -204,20 +205,18 @@ class Searcher extends React.Component {
 
 
     onFromChange(city) {
-        if (city instanceof Array) {
-            this.setFrom(city[0].name);
-        }
-        if (city instanceof String) {
-            this.setFrom(city);
+        if (city === undefined) {
+            this.setFrom('');    
+        } else {
+            this.setFrom(city[0]);
         }
     }
 
     onToChange(city) {
-        if (city instanceof Array) {
-            this.setTo(city[0].name);
-        }
-        if (city instanceof String) {
-            this.setTo(city);
+        if (city === undefined) {
+            this.setTo('');
+        } else {
+            this.setTo(city[0]);
         }
     }
 
