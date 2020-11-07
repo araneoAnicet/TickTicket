@@ -10,6 +10,7 @@ function App() {
   const [searchedTickets, setSearchedTickets] = useState([]);
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [email, setEmail] = useState();
+  const [ticketsInCart, setTicketsInCart] = useState(new Set());
   
   function checkToken() {
     fetch(`${config.backendHost}/api/check_token`, {
@@ -49,7 +50,9 @@ function App() {
           setToken(token);
         },
         searchedTickets: searchedTickets,
-        setSearchedTickets: setSearchedTickets
+        setSearchedTickets: setSearchedTickets,
+        ticketsInCart: ticketsInCart,
+        setTicketsInCart: setTicketsInCart
       }}
       >
       <AppBackground>

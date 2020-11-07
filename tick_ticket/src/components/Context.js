@@ -6,7 +6,9 @@ const AppContext = React.createContext({
     token: '',
     setToken: () => {},
     searchedTickets: [],
-    setSearchedTickets: () => {}
+    setSearchedTickets: () => {},
+    ticketsInCart: new Set(),
+    setTicketsInCart: () => {}
 });
 
 export default AppContext;

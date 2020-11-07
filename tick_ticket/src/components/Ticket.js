@@ -10,10 +10,11 @@ import Bus from '../Bus30.png';
 import Plane from '../Plane30.png';
 import '../style.css'
 import config from './Config';
+import AppContext from './Context';
 
 
 class Ticket extends React.Component {
-
+    static contextType = AppContext;
     constructor(props) {
         super(props);
         var transportIcon = 'any';

@@ -57,6 +57,9 @@ class NavBar extends React.Component {
     newTickets.add(ticket);
     this.setState({
       tickets: newTickets
+    }, () => {
+      console.log(`New tickets set: ${newTickets}`);
+      this.context.setTicketsInCart(newTickets);
     });
   }
 
@@ -66,6 +69,9 @@ class NavBar extends React.Component {
     ticket.isInCart = false;
     this.setState({
       tickets: newTickets
+    }, () => {
+      console.log(`New tickets set: ${newTickets}`);
+      this.context.setTicketsInCart(newTickets);
     });
   }
 
