@@ -53,7 +53,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-ALLOWED_HOSTS = ['localhost', '192.168.1.33']
+ALLOWED_HOSTS = ['localhost', '192.168.1.33', '127.0.0.1']
 
 
 ROOT_URLCONF = 'tick_ticket_site.urls'

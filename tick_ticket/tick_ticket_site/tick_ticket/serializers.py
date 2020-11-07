@@ -100,3 +100,7 @@ class SearchersSerializer(serializers.Serializer):
     one_way_date = serializers.DateField(required=False, default=None)
     round_trip_date = serializers.DateField(required=False, default=None)
     transport_name = serializers.CharField(default='any', required=False, max_length=20)
+
+class PaymentSerializer(serializers.Serializer):
+    ticket_ids = serializers.ListField(child=serializers.IntegerField(), required=True)
+    stripe_token = serializers.CharField(required=True)

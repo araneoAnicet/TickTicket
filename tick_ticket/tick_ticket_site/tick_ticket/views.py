@@ -23,7 +23,8 @@ from .serializers import (
     LoginSerializer,
     BoughtTicketSerializer,
     SearchersSerializer,
-    CarrierSerializer
+    CarrierSerializer,
+    PaymentSerializer
     )
 
 @api_view(['GET'])
@@ -63,21 +64,38 @@ class PaymentsViewSet(APIView):
     })
 
     def post(self, request):  # create checkout session
-        serializer = TicketSerializer(data=request.data, many=True)
+        serializer = PaymentSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         domain_url = DOMAIN_URL
         stripe.api_key = STRIPE_SECRET_KEY
         try:
-            checkout_session = stripe.checkout.Session.create(
-                success_url=domain_url + 'success?session_id={CHECKOUT_SESSION_ID}',
-                cancel_url=domain_url + 'cancelled',
-                payment_method_types=['card'],
-                mode='payment',
-                line_items=serializer.data
+            customer = stripe.Customer.create(
+                email=request.user.email,
+                name=request.user.username,
+                source=serializer.validated_data.get('stripe_token')
+            )
+            total_price = 0
+            for ticket_id in serializer.validated_data.get('ticket_ids'):
+                ticket = Ticket.objects.get(id=ticket_id)
+                total_price += ticket.price
+                BoughtTicket.objects.create(
+                    ticket=ticket,
+                    owner=request.user,
+                    bought_on_date=datetime.datetime.now(),
+                    bought_on_time=datetime.datetime.now()
+                )
+                ticket.number_of_available -= 1
+                ticket.save()
+
+            charge = stripe.Charge.create(
+                customer=customer,
+                amount=round(total_price * 100),
+                currency='usd',
+                description='purchace: tickets on tickticket.com'
             )
             return Response({
                 'message': 'OK',
-                'purchased_items': serializer.data,
+                'purchased_items': None,
                 'payload': {
                     'request': {
                         'body': request.data,
@@ -193,39 +211,6 @@ def registration(request):
     return Response({
         'message': serializer.error_messages,
         'errors': serializer.errors,
-        'payload': {
-            'request': {
-                'body': request.data,
-                'path': request.path,
-                'method': request.method
-            }
-        }
-    })
-
-
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def buy_ticket(request):
-    user = request.user
-    received_tickets_serializer = TicketSerializer(data=request.data, many=True)
-    received_tickets_serializer.is_valid(raise_exception=True)
-    ticket_ids = [
-        ticket['id'] for ticket in request.data
-    ]
-    tickets = Ticket.objects.all().filter(pk__in=ticket_ids)
-    #serializer = BoughtTicketSerializer(tickets, many=True)
-    bought_tickets = []
-    for ticket in tickets:
-        ticket.number_of_available -= 1
-        ticket.save()
-        bought_ticket = BoughtTicket(ticket=ticket, owner=user)
-        bought_ticket.save()
-        bought_tickets.append(bought_ticket)
-    serializer = BoughtTicketSerializer(bought_tickets, many=True)
-    return Response({
-        'message': 'OK',
-        'tickets': serializer.data,
         'payload': {
             'request': {
                 'body': request.data,
