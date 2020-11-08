@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import AppContext from './Context';
 import config from './Config';
+import Loading from './Loading';
 
 
 function LoginForm(props) {
@@ -12,6 +13,7 @@ function LoginForm(props) {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [serverResponseMessage, setServerResponseMessage] = useState(null);
+    const [serverResponseIsLoading, setServerResponseIsLoading] = useState(false);
 
 
     if (!props.registrationFormIsSet) {
@@ -29,7 +31,7 @@ function LoginForm(props) {
     function serverResponseMessageComponent() {
         if (serverResponseMessage) {
             return (
-                <Alert variant="success" className="text-center">
+                <Alert style={{ marginTop: '1em' }} variant="info" className="text-center">
                     {serverResponseMessage}
                 </Alert>
             );
@@ -38,6 +40,7 @@ function LoginForm(props) {
     }
 
     function submit() {
+        setServerResponseIsLoading(true);
         var ajax_body = {
             email: email,
             password: password
@@ -64,6 +67,8 @@ function LoginForm(props) {
                 }
                 setServerResponseMessage(data.message);
             }
+        }).then(() => {
+            setServerResponseIsLoading(false);
         });
     }
 
@@ -89,7 +94,10 @@ function LoginForm(props) {
                 I do not have an account
             </Button>
         </ButtonGroup>
-        {serverResponseMessageComponent()}
+        <Loading color='#836eb3' loading={serverResponseIsLoading} height='3em' style={{ marginLeft: '50%', marginRight: '50%' }}>
+            {serverResponseMessageComponent()}
+        </Loading>
+        
     </Form>
     );
 }

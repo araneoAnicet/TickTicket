@@ -8,6 +8,7 @@ import Modal from 'react-bootstrap/Modal';
 import '../style.css';
 import config from './Config';
 import StripePayment from './StripePayment';
+import Loading from './Loading';
 
 
 function MyTickets(props) {
@@ -15,6 +16,7 @@ function MyTickets(props) {
     const [cartIsSelected, setCartIsSelected] = useState(true)
     const [boughtTickets, setBoughtTickets] = useState([]);
     const [payIsPressed, setPayIsPressed] = useState(false);
+    const [historyIsLoading, setHistoryIsLoading] = useState(true);
 
     function handleSelect(event) {
         setCartIsSelected(event === 'cart');
@@ -34,6 +36,8 @@ function MyTickets(props) {
             if (data.bought_tickets) {
                 setBoughtTickets(data.bought_tickets);
             }
+        }).then(() => {
+            setHistoryIsLoading(false);
         });
     }
 
@@ -43,6 +47,7 @@ function MyTickets(props) {
             return null;
         }
         return (
+            <Loading color='#836eb3' loading={historyIsLoading} height='5em' style={{ marginLeft: '50%', marginRight: '50%' }}>
             <div>
                 {
                     Array.from(boughtTickets).map((item) => {
@@ -94,6 +99,7 @@ function MyTickets(props) {
                         })
                     }
             </div>
+            </Loading>
         );
     }
 
@@ -272,7 +278,7 @@ function MyTickets(props) {
         </Container>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={props.onHide} variant="primary">
+                <Button onClick={() => { props.onHide(); handleSelect('cart'); }} variant="primary">
                     Close
                 </Button>
             </Modal.Footer>

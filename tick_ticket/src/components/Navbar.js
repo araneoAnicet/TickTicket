@@ -6,10 +6,10 @@ import logo from '../logo192.png';
 import TicketsContainer from './TicketsContainer';
 import SearchersContainer from './SearchersContainer';
 import MyTickets from './MyTickets';
-import CarrierIcon from '../carrierIcon.png';
 import MyVerticallyCenteredModal from './Modal';
 import AppContext from './Context';
-
+import Loading from './Loading';
+import config from './Config';
 
 
 class NavBar extends React.Component {
@@ -21,8 +21,12 @@ class NavBar extends React.Component {
       showModal: false,
       showCart: false,
       showTicketsContainer: false,
-      token: ''
+      token: '',
+      tokenIsLoading: true,
+      ticketsAreLoading: true
     }
+
+    this.checkToken = this.checkToken.bind(this);
     this.addTicket = this.addTicket.bind(this);
     this.removeTicket = this.removeTicket.bind(this);
     this.setShowModal = this.setShowModal.bind(this);
@@ -32,6 +36,36 @@ class NavBar extends React.Component {
     if (localStorage.getItem('token')) {
       this.state.token = localStorage.getItem('token');
     }
+  }
+
+  checkToken() {
+    fetch(`${config.backendHost}/api/check_token`, {
+      
+      mode: 'cors',
+      dataType: 'json',
+      contentType: 'application/json',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${localStorage.getItem('token')}`
+      }
+    }).then((response) => {
+      return response.json();
+    }).then((data) => {
+      if (data.email) {
+        this.context.setEmail(data.email);
+      } else {
+        localStorage.setItem('token', '');
+      }
+    }).then(() => {
+      this.setState({
+        tokenIsLoading: false
+      });
+    })
+  }
+
+  componentDidMount() {
+    this.checkToken();
   }
 
   setShowTicketsContainer(showTicketsContainer) {
@@ -58,7 +92,6 @@ class NavBar extends React.Component {
     this.setState({
       tickets: newTickets
     }, () => {
-      console.log(`New tickets set: ${newTickets}`);
       this.context.setTicketsInCart(newTickets);
     });
   }
@@ -70,7 +103,6 @@ class NavBar extends React.Component {
     this.setState({
       tickets: newTickets
     }, () => {
-      console.log(`New tickets set: ${newTickets}`);
       this.context.setTicketsInCart(newTickets);
     });
   }
@@ -78,8 +110,10 @@ class NavBar extends React.Component {
   helloComponent() {
     if (this.context.token) {
       return (
-        <Nav.Link className="ml-auto" onClick={() => {this.context.setToken('')}}>
-              <span className="text-primary">Log out</span>, <span className="text-danger">{this.context.email}</span>?
+        <Nav.Link className="ml-auto" >
+              <Loading color='#836eb3' loading={this.state.tokenIsLoading} height='1.5em'>
+              <span className="text-primary" onClick={() => {this.context.setToken('')}}>Log out</span>, <span className="text-danger">{this.context.email}</span>?
+              </Loading>
             </Nav.Link>
       );
     }
@@ -126,29 +160,15 @@ class NavBar extends React.Component {
           show={this.state.showCart}
           onHide={() => {this.setShowCart(false)}}
           />
-  <SearchersContainer showTickets={() => {this.setShowTicketsContainer(true)}} ref={this.searchersContainerReference}/>
+      <SearchersContainer
+        showTickets={() => {this.setShowTicketsContainer(true)}}
+        ref={this.searchersContainerReference}
+        setTicketsAreLoading={(ticketsAreLoading) => {this.setState({ticketsAreLoading: ticketsAreLoading})}}
+      />
       <hr/>
       <TicketsContainer
         show={this.state.showTicketsContainer}
-        initialTicketsList={[
-          {
-              id: 0,
-              transportName: 'plane',
-              departureTime: '1:12',
-              arriveTime: '7:30',
-              departureDate: '24 aug 2019',
-              arriveDate: '24 aug 2019',
-              price: 58,
-              currencyName: 'USD',
-              departureCityName: 'Madrid',
-              arriveCityName: 'Minsk',
-              carrierIcon: CarrierIcon,
-              carrierName: 'International carrier',
-              isInCart: false,
-              numberOfAvailableTickets: 93,
-              reference: React.createRef()
-          }
-      ]}
+        loading={this.state.ticketsAreLoading}
         addTicket={this.addTicket}
         removeTicket={this.removeTicket}
       />

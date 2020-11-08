@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/esm/Button';
 import AppContext from './Context';
+import Loading from './Loading';
 
 
 function TicketsContainer(props) {
@@ -60,11 +61,13 @@ function TicketsContainer(props) {
 
 
     return (
-        <div>
+        
+            <div>
       <Container fluid style={{ marginTop: '2em' }}>
             <Row>
                 <Col/>
                 <Col xl="8" lg="8" md="10" sm="12" xs="12">
+                <Loading loading={props.loading} color='#836eb3' height='3em' style={{marginLeft: '50%', marginRight: '50%'}}>
                 <Button block variant="success" style={{ marginBottom: '1em' }} onClick={addSelectedTicketsToCart}>
                     Add all selected tickets to cart!
                     <svg style={{ marginLeft: '0.5em' }} width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-cart-plus-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -97,7 +100,7 @@ function TicketsContainer(props) {
                         );
                     })
                 }
-            
+            </Loading>
             </Col>
             <Col/>
             </Row>

@@ -5,6 +5,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Alert from 'react-bootstrap/Alert';
 import AppContext from './Context';
 import config from './Config';
+import Loading from './Loading';
 
 
 
@@ -16,6 +17,7 @@ function RegistrationForm(props) {
     const [password, setPassword] = useState();
     const [repeatPassword, setRepeatPassword] = useState();
     const [serverResponseMessage, setServerResponseMessage] = useState(null);
+    const [serverResponseIsLoading, setServerResponseIsLoading] = useState(false);
 
     function usernameChangeHandle(e) {
         setUsername(e.target.value);
@@ -53,7 +55,7 @@ function RegistrationForm(props) {
         }
 
         ajax_body = JSON.stringify(ajax_body);
-
+        setServerResponseIsLoading(true);
         fetch(`${config.backendHost}/api/auth/registration`, {
             method: 'POST',
             mode: 'cors',
@@ -73,6 +75,8 @@ function RegistrationForm(props) {
                 context.setEmail(email);
                 setServerResponseMessage(data.message);
             }
+        }).then(() => {
+            setServerResponseIsLoading(false);
         });
     }
 
@@ -110,7 +114,9 @@ function RegistrationForm(props) {
                 I already have an account
             </Button>
         </ButtonGroup>
-        {serverResponseMessageComponent()}
+        <Loading color='#836eb3' loading={serverResponseIsLoading} height='3em' style={{ marginLeft: '50%', marginRight: '50%' }}>
+            {serverResponseMessageComponent()}
+        </Loading>
     </Form>
     );
 }

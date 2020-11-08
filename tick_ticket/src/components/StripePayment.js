@@ -1,15 +1,17 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import {Elements, CardElement, useStripe, useElements} from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
 import config from './Config';
 import Alert from 'react-bootstrap/Alert';
 import AppContext from './Context';
+import Loading from './Loading';
 
-function CheckoutForm(props) {
+function CheckoutForm() {
     const stripe = useStripe();
     const elements = useElements();
     const context = useContext(AppContext);
+    const [paymentIsLoading, setPaymentIsLoading] = useState(false);
     
     async function onFormSubmit(event) {
         event.preventDefault();
@@ -22,12 +24,12 @@ function CheckoutForm(props) {
         let ticket_ids = [...context.ticketsInCart].map((item) => {
             return item.id;
         });
-        console.log('[Tickets to send', ticket_ids);
         let body = JSON.stringify({
             stripe_token: stripeToken.token.id,
             ticket_ids: ticket_ids  // add context here
         });
-        console.log('[body]', JSON.parse(body));
+
+        setPaymentIsLoading(true);
         fetch(`${config.backendHost}/api/payments`, {
             method: 'POST',
             mode: 'cors',
@@ -43,17 +45,21 @@ function CheckoutForm(props) {
             return response.json();
         }).then((data) => {
             console.log('[RECEIVED DATA]', data);
+        }).then(() => {
+            setPaymentIsLoading(false);
         });
     }
     return (
         <form onSubmit={onFormSubmit}>
-            <CardElement/>
+            <Loading color='#836eb3' loading={paymentIsLoading} height='3em' style={{ marginLeft: '50%', marginRight: '50%' }}>
+                <CardElement/>
                 <Alert variant="light">
                     Put your credit card information to finish payment!
                 </Alert>
                 <Button variant="success" type="submit">
                 Submit payment!
             </Button>
+            </Loading>
         </form>
     );
 }

@@ -49,6 +49,7 @@ function SearchersContainer(props, ref) {
 
     function showSearchersData() {
         props.showTickets();
+        props.setTicketsAreLoading(true);
         let searchersData = searchers.map((searcher) => {
             let data = searcher.reference.current.getData();
             let request_body = {
@@ -102,6 +103,8 @@ function SearchersContainer(props, ref) {
                     numberOfAvailableTickets: ticket.number_of_available
                 };
             }));
+        }).then(() => {
+            props.setTicketsAreLoading(false);
         })
     }
 
